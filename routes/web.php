@@ -48,7 +48,10 @@ Route::get('/produk/torishima', [ProductController::class, 'torishima'])->name('
 Route::get('/produk/titan', [ProductController::class, 'titan'])->name('produk.titan');
 Route::get('/produk/siemens', [ProductController::class, 'siemens'])->name('produk.siemens');
 Route::get('/produk/teco', [ProductController::class, 'teco'])->name('produk.teco');
+Route::get('/produk/isuzu', [ProductController::class, 'isuzu'])->name('produk.isuzu');
+Route::get('/produk/fawde', [ProductController::class, 'fawde'])->name('produk.fawde');
 Route::get('/produk/tival', [ProductController::class, 'tival'])->name('produk.tival');
+
 
 Route::get('/about', function () {
     $allProducts = \App\Models\Product::active()->ordered()->get();

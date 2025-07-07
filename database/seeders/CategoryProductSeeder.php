@@ -28,28 +28,34 @@ class CategoryProductSeeder extends Seeder
                 'sort_order' => 2
             ],
             [
-                'name' => 'Motor',
+                'name' => 'Electric Motor',
                 'description' => 'Electric and industrial motors',
                 'icon' => 'bi-lightning-fill',
                 'sort_order' => 3
             ],
             [
+                'name' => 'Diesel Motor',
+                'description' => 'Diesel and industrial motors',
+                'icon' => 'bi-fuel-pump',
+                'sort_order' => 4
+            ],
+            [
                 'name' => 'Blower',
                 'description' => 'Industrial blowers',
                 'icon' => 'bi-wind',
-                'sort_order' => 4
+                'sort_order' => 5
             ],
             [
                 'name' => 'Submersible Pump',
                 'description' => 'Submersible pumps for underwater applications',
                 'icon' => 'bi-water',
-                'sort_order' => 5
+                'sort_order' => 6
             ],
             [
                 'name' => 'Accessories',
                 'description' => 'Pump and motor accessories',
                 'icon' => 'bi-tools',
-                'sort_order' => 5
+                'sort_order' => 7
             ]
         ];
 
@@ -66,8 +72,11 @@ class CategoryProductSeeder extends Seeder
                 case 'Gear Pump':
                     $this->createGearPumpProducts($category->id);
                     break;
-                case 'Motor':
-                    $this->createMotorProducts($category->id);
+                case 'Electric Motor':
+                    $this->createElectricMotorProducts($category->id);
+                    break;
+                case 'Diesel Motor':
+                    $this->createDieselMotorProducts($category->id);
                     break;
                 case 'Blower':
                     $this->createBlowerProducts($category->id);
@@ -119,14 +128,6 @@ class CategoryProductSeeder extends Seeder
             ],
         
             [
-                'name' => 'KSB Industrial Pump',
-                'brand' => 'KSB', 
-                'description' => 'Reliable industrial pump for various applications',
-                'specifications' => 'Flow rate: 50-500 L/min, Head: 5-50m',
-                'sort_order' => 4,
-                'image' => 'img/produk/ksb-industrial-pump.jpg',
-            ],
-            [
                 'name' => 'Torishima',
                 'brand' => 'Torishima',
                 'type' => 'cen-series',
@@ -168,7 +169,7 @@ class CategoryProductSeeder extends Seeder
         }
     }
 
-    private function createMotorProducts($categoryId)
+    private function createElectricMotorProducts($categoryId)
     {
         $products = [
 
@@ -201,6 +202,38 @@ class CategoryProductSeeder extends Seeder
                 'image' => 'img/Teco/aesv1s.png',
             ],
 
+        ];
+
+        foreach ($products as $productData) {
+            $productData['category_id'] = $categoryId;
+            $productData['slug'] = Str::slug($productData['name']);
+            $productData['is_active'] = true;
+            Product::create($productData);
+        }
+    }
+
+    private function createDieselMotorProducts($categoryId)
+    {
+        $products = [
+            [
+            'name' => 'Isuzu 4JB1T',
+            'brand' => 'Isuzu',
+            'type' => '4JB1T',
+            'description' => 'High-performance diesel motor for demanding applications',
+            'specifications' => 'Power: 1-200 kW, Efficiency: IE3/IE4',
+            'sort_order' => 1,
+            'image' => 'img/isuzu/4jb1t.png',
+            ],
+
+            [
+                'name' => 'Fawde 4DX23',
+                'brand' => 'Fawde',
+                'type' => '4DX23',
+                'description' => 'Premium quality diesel motor for demanding applications',
+                'specifications' => 'Power: 1-200 kW, Efficiency: IE3/IE4',
+                'sort_order' => 2,
+                'image' => 'img/fawde/4dx23.png',
+            ],
         ];
 
         foreach ($products as $productData) {

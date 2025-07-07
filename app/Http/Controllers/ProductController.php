@@ -91,7 +91,7 @@ class ProductController extends Controller
             $q->active()->ordered();
         }])->get();
 
-        // Pilih view sesuai brand/type
+        // Ebara Product
         if ($brand === 'ebara' && $type === 'fsa-series') {
             return view('produk.type-detail-ebara-fsa', compact('product', 'brand', 'type', 'categories'));
         } elseif ($brand === 'ebara' && $type === 'gs-series') {
@@ -102,19 +102,35 @@ class ProductController extends Controller
             return view('produk.type-detail-ebara-dseries', compact('product', 'brand', 'type', 'categories'));
         }
         // Ebara akhir product
+
+        //  Grundfos Product
         elseif($brand === 'grundfos' && $type === 'sp-series') {
             return view('produk.type-detail-grundfos-sp', compact('product', 'brand', 'type', 'categories'));
         }
+
+        // Torishima Product
         elseif ($brand === 'torishima' && $type === 'cen-series') {
             return view('produk.type-detail-torishima-cen', compact('product', 'brand', 'type', 'categories'));
+
+            // Electric Motor
         } elseif ($brand === 'titan' && $type === 'electric-motor') {
             return view('produk.type-detail-titan-electric', compact('product', 'brand', 'type', 'categories'));
         } elseif ($brand === 'siemens' && $type === '1LEO') {
             return view('produk.type-detail-siemens-electric', compact('product', 'brand', 'type', 'categories'));
         } elseif ($brand === 'teco' && $type === 'AESV1S') {
             return view('produk.type-detail-teco-electric', compact('product', 'brand', 'type', 'categories'));
+
+            // Diesel Motor
+        } elseif ($brand === 'isuzu' && $type === '4JB1T') {
+            return view('produk.type-detail-isuzu-diesel', compact('product', 'brand', 'type', 'categories'));
+        } elseif ($brand === 'fawde' && $type === '4DX23') {
+            return view('produk.type-detail-fawde-diesel', compact('product', 'brand', 'type', 'categories'));
+
+            // Tival Product
         } elseif ($brand === 'tival' && $type === 'FF-4') {
             return view('produk.type-detail-tival-ff4', compact('product', 'brand', 'type', 'categories'));
+
+            // Koshin Product
         } else {
             // Default (misal: koshin)
             return view('produk.type-detail', compact('product', 'brand', 'type', 'categories'));

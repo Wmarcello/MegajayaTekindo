@@ -44,7 +44,8 @@
                     {{-- WhatsApp Button --}}
                     {{-- WhatsApp Button --}}
                     <div class="mt-4">
-                        <a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20tanya%20tentang%20{{ $product->name }}"
+                        <a href="https://wa.me/6285775230813?text=Halo%20MJT,%20saya%20tertarik%20dengan%20produk%20{{ $product->name }}%20dan%20ingin%20konsultasi%20mengenai%20spesifikasi%20yang%20saya%20butuhkan%20sebaiknya%20menggunakan%20tipe%20apa.
+"
                             target="_blank"
                             class="inline-flex items-center gap-2 px-5 py-3 mt-6 bg-green-500 text-white font-semibold rounded-full shadow-md hover:bg-green-600 hover:shadow-lg transition duration-300 ease-in-out">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 32 32">
