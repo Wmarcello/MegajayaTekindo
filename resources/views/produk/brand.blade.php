@@ -32,22 +32,22 @@
                         </div>
                         @if ($product->type)
                             <a href="{{ route('produk.type.detail', ['brand' => Str::slug($product->brand), 'type' => $product->type]) }}"
-                                class="block w-full">
-                                <button type="button"
-                                    class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mx-auto block mt-2 w-full transition duration-200">
-                                    {{ strtoupper(str_replace('-', ' ', $product->type)) }}
-                                </button>
+                                x-data="{ clicked: false }"
+                                @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                                :class="{ 'opacity-50 pointer-events-none': clicked }"
+                                class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mx-auto block mt-2 w-full transition duration-200 text-center">
+                                {{ strtoupper(str_replace('-', ' ', $product->type)) }}
                             </a>
                         @endif
                     </div>
                 @endforeach
             </div>
         @else
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m-5 p-5 gap-8 text-center justify-center">
                 @forelse ($products as $product)
                     <div class="flex justify-center">
                         <div
-                            class="flex flex-col justify-between items-center bg-white rounded-xl shadow p-5 w-full max-w-xs min-h-[400px] text-center">
+                            class="flex flex-col justify-between m-auto items-center bg-white rounded-xl shadow p-5 w-full max-w-xs min-h-[400px] text-center">
                             <div class="flex flex-col items-center flex-grow w-full">
                                 <div class="flex justify-center items-center mb-3 w-full h-[200px]">
                                     @if ($product->image)
@@ -63,7 +63,9 @@
                             </div>
                             @if ($product->type)
                                 <a href="{{ route('produk.type.detail', ['brand' => Str::slug($product->brand), 'type' => $product->type]) }}"
-                                    class="block w-full">
+                                    x-data="{ clicked: false }"
+                                    @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                                    :class="{ 'opacity-50 pointer-events-none': clicked }" class="block w-full">
                                     <button type="button"
                                         class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mx-auto block mt-2 w-full transition duration-200">
                                         {{ strtoupper(str_replace('-', ' ', $product->type)) }}
@@ -95,6 +97,8 @@
 @endsection
 
 @section('footer')
+    {{-- Footer --}}
+
     <footer class="bg-red-600 text-stone-100 pt-12 pb-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -102,26 +106,27 @@
                 <div>
                     <h3 class="text-xl font-semibold text-white mb-4">Contact Us</h3>
                     <p class="mb-1">PT Mega Jaya Tekindo</p>
-                    <p class="mb-1">JL. Angkasa Kavling B-6, Mall MGK Kemayoran Lt. UG Blok C3.No. 3, Jakarta Pusat</p>
+                    <p class="mb-1">JL. Angkasa Kavling B-6, Mall MGK Kemayoran Lt. UG Blok C3.No. 3,
+                        Jakarta
+                        Pusat</p>
                     <p class="mb-1">Telepon: +62 857-7523-0813</p>
-                    <p class="mb-1">Email:
-                        <a href="mailto:marketing@ptkmcl.com" class="text-blue-400 hover:underline">
-                            MegaJayaTekindo@gmail.com
-                        </a>
+                    <p class="mb-1">
+                        Email: <a href="mailto:marketing@ptkmcl.com"
+                            class="text-blue-400 hover:underline">MegaJayaTekindo@gmail.com</a>
                     </p>
                 </div>
 
                 <!-- Kolom 2: Media Sosial -->
                 <div>
-                    <h3 class="text-xl font-semibold text-white mb-4">Social Media / Marketplace</h3>
+                    <h3 class="text-xl font-semibold text-white mb-4">Social Media/ Marketplace</h3>
                     <a href="https://instagram.com/williammarcelloSS" target="_blank" rel="noopener"
                         class="inline-block mt-2">
-                        <img src="{{ asset('img/socialmedia/instagram.png') }}" alt="Instagram" class="w-16 h-16">
-
-
+                        <img src="../img/socialmedia/instagram.png" alt="Instagram"
+                            class="w-16 h-16 transition-transform transform hover:scale-110">
                     </a>
                     <a href="https://Tokopedia.com/megashop2019" target="_blank" rel="noopener" class="inline-block mt-2">
-                        <img src="{{ asset('img/socialmedia/tokopedia.png') }}" alt="Tokopedia" class="w-14 h-16">
+                        <img src="../img/socialmedia/tokopedia.png" alt="Tokopedia"
+                            class="w-14 h-16 transition-transform transform hover:scale-110">
                     </a>
                 </div>
 
@@ -132,14 +137,20 @@
                         <li><a href="/home" class="hover:text-white text-blue-400">› Home</a></li>
                         <li><a href="#" class="hover:text-white text-blue-400">› Product</a></li>
                         <li><a href="/about" class="hover:text-white text-blue-400">› About Us</a></li>
-                        <li><a href="/contact" class="hover:text-white text-blue-400">› Contact Us</a></li>
+                        <li><a href="/contact" class="hover:text-white text-blue-400">› Contact Us</a>
+                        </li>
                     </ul>
                 </div>
             </div>
 
+            <!-- Garis & Copyright -->
             <div class="mt-10 border-t border-stone-100 pt-6 text-center text-sm text-stone-100 font-bold">
                 © Copyright: All Rights Reserved PT Mega Jaya Tekindo 2025
             </div>
         </div>
     </footer>
+
+    {{-- Akhir Footer --}}
+
+
 @endsection

@@ -14,15 +14,13 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     {{-- Akhir AOS --}}
 
-    <title> Navbar Project MJT</title>
-
+    <title>@yield('title', 'Mega Jaya Tekindo')</title>
 </head>
-
 
 <body class="min-h-screen scroll-smooth overflow-x-hidden">
 
     <div class="min-h-full">
-        <nav class="bg-stone-100" x-data="{ isOpen: false }">
+        <nav class="bg-white md:bg-transparent md:absolute md:top-0 md:left-0 w-full z-50" x-data="{ isOpen: false }">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 items-center justify-between">
                     <div class="flex flex-1 items-center justify-between">
@@ -31,16 +29,25 @@
                         </div>
                         <div class="hidden md:flex flex-1 justify-center">
                             <div class="ml-10 flex items-baseline space-x-8">
-                                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-800 hover:bg-gray-700 hover:text-white" -->
                                 <a href="/home"
-                                    class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">Home</a>
+                                    class="relative px-3 py-2 text-sm font-bold text-stone-100 hover:text-red-400 transition-colors
+          before:content-[''] before:absolute before:left-3 before:right-3 before:bottom-1 before:h-0.5
+          before:bg-red-600 before:scale-x-0 hover:before:scale-x-100 before:origin-left before:transition-transform before:duration-300">
+                                    Home
+                                </a>
                                 <a href="/about"
-                                    class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white ">About</a>
-                                {{-- Product Menu --}}
+                                    class="relative px-3 py-2 text-sm font-bold text-stone-100 hover:text-red-400 transition-colors
+          before:content-[''] before:absolute before:left-3 before:right-3 before:bottom-1 before:h-0.5
+          before:bg-red-600 before:scale-x-0 hover:before:scale-x-100 before:origin-left before:transition-transform before:duration-300">
+                                    About
+                                </a>
 
-                                <div class="relative group">
+                                {{-- Product Menu --}}
+                                <div class="hidden md:block relative group">
                                     <a href="#"
-                                        class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">
+                                        class="relative px-3 py-2 text-sm font-bold text-stone-100 hover:text-red-400 transition-colors
+          before:content-[''] before:absolute before:left-3 before:right-3 before:bottom-1 before:h-0.5
+          before:bg-red-600 before:scale-x-0 hover:before:scale-x-100 before:origin-left before:transition-transform before:duration-300">
                                         Product
                                     </a>
                                     <div
@@ -50,32 +57,113 @@
                                                 <div>
                                                     <h4 class="font-bold mb-2">{{ $category->name }}</h4>
                                                     <ul class="space-y-1">
-                                                        @foreach ($category->products as $product)
-                                                            <li>
-                                                                <a href="{{ route('produk.brand', ['brand' => Str::slug($product->brand)]) }}"
-                                                                    class="hover:underline">
-                                                                    {{ $product->name }}
-                                                                </a>
-                                                            </li>
-                                                        @endforeach
+                                                        @php
+                                                            $products = collect($category->products)->filter(
+                                                                fn($p) => !empty($p->brand),
+                                                            );
+                                                            $brands = $products->pluck('brand')->unique();
+                                                        @endphp
+
+                                                        @if (Str::lower($category->name) === 'accessories')
+                                                            @php
+                                                                $ebaraAccessories = $products->filter(
+                                                                    fn($p) => Str::lower($p->brand) === 'ebara',
+                                                                );
+                                                                $hasImpeller = $ebaraAccessories->contains(
+                                                                    fn($p) => Str::contains(
+                                                                        Str::lower($p->name),
+                                                                        'impeller',
+                                                                    ),
+                                                                );
+                                                                $hasSealKit = $ebaraAccessories->contains(
+                                                                    fn($p) => Str::contains(
+                                                                        Str::lower($p->name),
+                                                                        'seal kit',
+                                                                    ),
+                                                                );
+                                                            @endphp
+
+                                                            @if ($hasImpeller)
+                                                                <li>
+                                                                    <a href="{{ route('produk.brand', ['brand' => 'ebara']) }}"
+                                                                        class="hover:underline text-gray-700 hover:text-red-600">
+                                                                        Impeller (Ebara)
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+
+                                                            @if ($hasSealKit)
+                                                                <li>
+                                                                    <a href="{{ route('produk.brand', ['brand' => 'ebara']) }}"
+                                                                        class="hover:underline text-gray-700 hover:text-red-600">
+                                                                        Seal Kit (Ebara)
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+
+                                                            {{-- Tampilkan brand lain di Accessories --}}
+                                                            @foreach ($brands as $brand)
+                                                                @if (Str::lower($brand) !== 'ebara')
+                                                                    <li>
+                                                                        <a href="{{ route('produk.brand', ['brand' => Str::slug($brand)]) }}"
+                                                                            class="hover:underline text-gray-700 hover:text-red-600">
+                                                                            {{ $brand }}
+                                                                        </a>
+                                                                    </li>
+                                                                @endif
+                                                            @endforeach
+                                                        @elseif (Str::lower($category->name) === 'submersible pump')
+                                                            @foreach ($brands as $brand)
+                                                                <li>
+                                                                    <a href="{{ route('produk.brand', ['brand' => Str::slug($brand)]) }}"
+                                                                        class="hover:underline text-gray-700 hover:text-red-600">
+                                                                        @if (Str::lower($brand) === 'ebara')
+                                                                            Ebara D-Series
+                                                                        @else
+                                                                            {{ $brand }}
+                                                                        @endif
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        @else
+                                                            @foreach ($brands as $brand)
+                                                                <li>
+                                                                    <a href="{{ route('produk.brand', ['brand' => Str::slug($brand)]) }}"
+                                                                        class="hover:underline text-gray-700 hover:text-red-600">
+                                                                        {{ $brand }}
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        @endif
                                                     </ul>
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
                                 </div>
-
-
                                 {{-- End Product Menu --}}
 
-                                <a href="/project"
-                                    class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">Project</a>
-                                <a href="/contact"
-                                    class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">Contact</a>
+                                <a href="/project" x-data="{ clicked: false }"
+                                    @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                                    :class="{ 'opacity-50 pointer-events-none': clicked }"
+                                    class="relative px-3 py-2 text-sm font-bold text-stone-100 hover:text-red-400 transition-colors
+          before:content-[''] before:absolute before:left-3 before:right-3 before:bottom-1 before:h-0.5
+          before:bg-red-600 before:scale-x-0 hover:before:scale-x-100 before:origin-left before:transition-transform before:duration-300">
+                                    Project
+                                </a>
+                                <a href="/contact" x-data="{ clicked: false }"
+                                    @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                                    :class="{ 'opacity-50 pointer-events-none': clicked }"
+                                    class="relative px-3 py-2 text-sm font-bold text-stone-100 hover:text-red-400 transition-colors
+          before:content-[''] before:absolute before:left-3 before:right-3 before:bottom-1 before:h-0.5
+          before:bg-red-600 before:scale-x-0 hover:before:scale-x-100 before:origin-left before:transition-transform before:duration-300">
+                                    Contact
+                                </a>
 
                                 <form action="{{ route('products.index') }}" method="GET" class="flex items-center">
                                     <input type="text" name="search" placeholder="Cari produk..."
-                                        value="{{ $search ?? '' }}" class="border rounded px-2 py-1 text-sm" />
+                                        value="{{ $search ?? '' }}"
+                                        class="border rounded px-2 py-1 text-sm border-stone-100 text-white hover:border-red-600">
                                     <button type="submit"
                                         class="ml-2 px-3 py-1 bg-red-600 text-white rounded">Cari</button>
                                 </form>
@@ -140,19 +228,84 @@
                             </button>
 
                             <!-- Isi Dropdown Produk Dinamis -->
-                            <div x-show="openProduct" x-transition class="mt-2 text-sm text-gray-700 space-y-4 pl-4">
+                            <div x-show="openProduct" x-transition
+                                class="mt-2 text-sm text-gray-700 space-y-4 pl-4 relative md:absolute md:left-1/2 md:-translate-x-1/2 md:mt-2 md:z-50 md:flex md:w-[900px] md:bg-white md:shadow-lg md:p-6 md:rounded-md md:border md:border-gray-200 md:justify-between">
                                 @foreach ($categories ?? [] as $category)
                                     <div>
-                                        <h4 class="font-semibold">{{ $category->name }}</h4>
-                                        <ul class="ml-4 space-y-1">
-                                            @foreach ($category->products as $product)
-                                                <li>
-                                                    <a href="{{ route('produk.brand', ['brand' => Str::slug($product->brand)]) }}"
-                                                        class="hover:underline">
-                                                        {{ $product->name }}
-                                                    </a>
-                                                </li>
-                                            @endforeach
+                                        <h4 class="font-bold mb-2">{{ $category->name }}</h4>
+                                        <ul class="space-y-1">
+                                            @php
+                                                $products = collect($category->products)->filter(
+                                                    fn($p) => !empty($p->brand),
+                                                );
+                                                $brands = $products->pluck('brand')->unique();
+                                            @endphp
+
+                                            @if (Str::lower($category->name) === 'accessories')
+                                                @php
+                                                    $ebaraAccessories = $products->filter(
+                                                        fn($p) => Str::lower($p->brand) === 'ebara',
+                                                    );
+                                                    $hasImpeller = $ebaraAccessories->contains(
+                                                        fn($p) => Str::contains(Str::lower($p->name), 'impeller'),
+                                                    );
+                                                    $hasSealKit = $ebaraAccessories->contains(
+                                                        fn($p) => Str::contains(Str::lower($p->name), 'seal kit'),
+                                                    );
+                                                @endphp
+
+                                                @if ($hasImpeller)
+                                                    <li>
+                                                        <a href="{{ route('produk.brand', ['brand' => 'ebara']) }}"
+                                                            class="hover:underline text-gray-700 hover:text-red-600">
+                                                            Impeller (Ebara)
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                                @if ($hasSealKit)
+                                                    <li>
+                                                        <a href="{{ route('produk.brand', ['brand' => 'ebara']) }}"
+                                                            class="hover:underline text-gray-700 hover:text-red-600">
+                                                            Seal Kit (Ebara)
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                                {{-- Tampilkan brand lain di Accessories --}}
+                                                @foreach ($brands as $brand)
+                                                    @if (Str::lower($brand) !== 'ebara')
+                                                        <li>
+                                                            <a href="{{ route('produk.brand', ['brand' => Str::slug($brand)]) }}"
+                                                                class="hover:underline text-gray-700 hover:text-red-600">
+                                                                {{ $brand }}
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            @elseif (Str::lower($category->name) === 'submersible pump')
+                                                @foreach ($brands as $brand)
+                                                    <li>
+                                                        <a href="{{ route('produk.brand', ['brand' => Str::slug($brand)]) }}"
+                                                            class="hover:underline text-gray-700 hover:text-red-600">
+                                                            @if (Str::lower($brand) === 'ebara')
+                                                                Ebara D-Series
+                                                            @else
+                                                                {{ $brand }}
+                                                            @endif
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            @else
+                                                @foreach ($brands as $brand)
+                                                    <li>
+                                                        <a href="{{ route('produk.brand', ['brand' => Str::slug($brand)]) }}"
+                                                            class="hover:underline text-gray-700 hover:text-red-600">
+                                                            {{ $brand }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            @endif
                                         </ul>
                                     </div>
                                 @endforeach
@@ -172,59 +325,76 @@
             </div>
         </nav>
 
+        <!-- HEADER FULLSCREEN DENGAN BACKGROUND BERGERAK -->
+        <header class="relative w-full h-screen overflow-hidden">
+            <!-- Background Image -->
+            <div class="absolute inset-0 z-0">
+                <img src="/img/galleryproject/Hydrant.jpg" alt="Background Hydrant"
+                    class="w-full h-full object-cover object-center brightness-50">
+            </div>
 
-        <header>
-            <div class="bg-white dark:bg-red-600 backdrop-blur-lg flex relative z-20 items-center overflow-hidden">
-                <div class="container mx-auto px-6 flex relative py-16 h-150" data-aos="fade-down">
-                    <div class="sm:w-2/3 lg:w-2/5 flex flex-col relative z-20 mt-7">
-                        <span class="w-20 h-2 bg-gray-800 dark:bg-white mb-12">
-                        </span>
-                        <h1
-                            class="font-bebas-neue uppercase text-7xl sm:text-6xl font-black flex flex-col leading-none dark:text-white text-gray-800 drop-shadow-xl">
+            <!-- Konten Header -->
+            <div class="relative z-20 flex items-center justify-center h-full mb-10">
+                <div class="container mx-auto px-6 flex flex-col lg:flex-row items-center justify-between py-16">
+                    <!-- Teks Konten -->
+                    <div class="w-full lg:w-1/2 mb-10 lg:mb-0" data-aos="fade-down" data-aos-duration="1200">
+                        <span class="w-20 h-2 bg-white mb-12 block" data-aos="fade-right"
+                            data-aos-delay="200"></span>
+                        <h1 class="font-bebas-neue uppercase text-5xl sm:text-7xl font-black leading-none text-white drop-shadow-xl"
+                            data-aos="zoom-in" data-aos-delay="400">
                             Mega Jaya
-                            <span class="text-4xl sm:text-6xl pb-3 drop-shadow-xl">
-                                Tekindo
-                            </span>
+                            <span class="text-4xl sm:text-6xl block pb-3 drop-shadow-xl" data-aos="fade-left"
+                                data-aos-delay="600">Tekindo</span>
                         </h1>
-                        <p class="text-sm sm:text-base text-gray-700 dark:text-white">
-                            Dimension of reality that makes change possible and understandable. An indefinite and
-                            homogeneous environment in which natural events and human existence take place.
+                        <p class="text-sm sm:text-base text-white mt-4" data-aos="fade-up" data-aos-delay="800">
+                            Reliable Engineering. Proven Performance. <br> and Driven by Quality. Powered by Trust.
+                            </br>
                         </p>
-                        <div class="flex mt-8">
-                            <a href="#products"
-                                class="uppercase py-2 px-4 rounded-lg bg-neutral-50 border-2 border-transparent text-stone-900 text-md mr-4 hover:bg-amber-500">
+                        <div class="mt-8" data-aos="fade-up" data-aos-delay="1000">
+                            <a href="#about"
+                                class="uppercase py-2 px-4 rounded-lg bg-neutral-50 border-2 border-transparent text-stone-900 text-md mr-4 hover:bg-amber-500 transition-all duration-300 shadow-lg hover:scale-105">
                                 Get started
                             </a>
                         </div>
                     </div>
-                    <!-- #region Hero Image -->
-                    <div class="hidden sm:block mx-auto max-w-2xl px-3 py-4 sm:px-4 lg:px-4 w-full">
-                        <!-- Gambar Cards -->
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-20">
-                            <!-- Card 1 -->
-                            <div class="rounded-3xl overflow-hidden shadow-lg drop-shadow-xl/50">
-                                <img src="./img/hydrantPump.png" alt="Card 1"
-                                    class="w-full h-60 object-contain mx-auto bg-white p-2">
-                            </div>
 
-                            <!-- Card 2 -->
-                            <div class="rounded-3xl overflow-hidden shadow-lg drop-shadow-xl/50">
-                                <img src="./img/titanPump.png" alt="Card 2"
-                                    class="w-full h-60 object-contain mx-auto bg-white p-2">
+                    <!-- Gambar Produk -->
+                    <div class="hidden lg:grid grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl" data-aos="fade-left"
+                        data-aos-delay="800">
+                        <!-- Card 1 -->
+                        <div
+                            class="rounded-3xl overflow-hidden shadow-xl hover:scale-105 transition duration-500 bg-white/70 p-4">
+                            <div class=" rounded-2xl p-2">
+                                <img src="/img/hydrantPump.png" alt="Hydrant Pump"
+                                    class="w-full h-60 object-contain">
                             </div>
+                        </div>
 
-                            <!-- Card 3 -->
-                            <div class="rounded-3xl overflow-hidden shadow-lg drop-shadow-xl/50">
-                                <img src="./img/gs/gs.png" alt="Card 3"
-                                    class="w-full h-60 object-contain mx-auto bg-white p-2">
+                        <!-- Card 2 -->
+                        <div
+                            class="rounded-3xl overflow-hidden shadow-xl hover:scale-105 transition duration-500 bg-white/70 p-4">
+                            <div class=" rounded-2xl p-2">
+                                <img src="/img/titanPump.png" alt="Titan Pump" class="w-full h-60 object-contain">
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div
+                            class="rounded-3xl overflow-hidden shadow-xl hover:scale-105 transition duration-500 bg-white/70 p-4">
+                            <div class=" rounded-lg p-2">
+                                <img src="/img/gs/gs.png" alt="GS Pump" class="w-full h-60 object-contain">
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
         </header>
+
 
         <main>
             {{-- About Us Section --}}
-            <section class="bg-stone-50 text-black py-16 lg:py-24 w-full">
+            <section class="bg-stone-50 text-black py-16 lg:py-24 w-full p-10" id="about" data-aos="fade-up"
+                data-aos-duration="1200">
                 <div class="max-w-7xl mx-auto px-4 lg:px-8">
                     <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                         {{-- Left Content --}}
@@ -234,21 +404,26 @@
 
                             {{-- Main heading --}}
                             <h2 class="text-3xl lg:text-4xl xl:text-4xl font-bold leading-tight text-black"
-                                data-aos="fade-right">
+                                data-aos="fade-right" data-aos-delay="200">
                                 ABOUT US
                             </h2>
 
                             {{-- Description text --}}
-                            <p class="text-black text-sm lg:text-lg leading-relaxed max-w-2xl" data-aos="fade-right">
-                                SEA.D is a value creator that uses data signals to open up the physical
-                                world between traditional industrial pumps with users and enterprises,
-                                sensing and monitoring equipment operating conditions, optimizing
-                                operation efficiency, intelligent energy saving for users and simplifying
-                                control!
+                            <p class="text-black text-sm lg:text-lg leading-relaxed max-w-2xl" data-aos="fade-right"
+                                data-aos-delay="400">
+                                Mega Jaya Tekindo adalah perusahaan yang bergerak di bidang penyediaan pompa industri,
+                                motor listrik, dan peralatan teknik. Kami menyediakan solusi berkualitas untuk berbagai
+                                kebutuhan industri dan komersial, dengan produk dari merek terpercaya seperti EBARA,
+                                Grundfos, Teco, dan lainnya.
+
+                                Didukung oleh tim berpengalaman, kami berkomitmen untuk memberikan layanan terbaik
+                                melalui konsultasi teknis, pemilihan produk yang tepat, serta dukungan purna jual yang
+                                profesional.
+
                             </p>
 
                             {{-- CTA Button --}}
-                            <div class="pt-4" data-aos="fade-right">
+                            <div class="pt-4" data-aos="fade-right" data-aos-delay="600">
                                 <a href="/about"
                                     class="inline-block bg-red-600 hover:bg-amber-500 text-stone-50 font-semibold px-8 py-4 rounded transition-colors duration-300 uppercase tracking-wide">
                                     Learn More
@@ -257,7 +432,7 @@
                         </div>
 
                         {{-- Right Image --}}
-                        <div class="relative" data-aos="fade-left">
+                        <div class="relative" data-aos="fade-left" data-aos-delay="800">
                             <div class="aspect-w-4 aspect-h-3 lg:aspect-w-16 lg:aspect-h-10">
                                 <img src="./img/aboutData1.png"
                                     alt="Industrial warehouse with equipment and machinery"
@@ -273,20 +448,181 @@
 
             {{-- Akhir About Us  --}}
 
+            {{-- Main Product Section --}}
+            <section class="bg-white py-16 lg:py-24 w-full p-10" id="products" data-aos="fade-up"
+                data-aos-duration="1200">
+                <div class="max-w-7xl mx-auto px-4 lg:px-8">
+                    <div class="mb-12 text-center">
+                        <div class="w-16 h-1 mx-auto bg-red-600 mb-4"></div>
+                        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 tracking-tight">MAIN PRODUCT</h2>
+                        <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                            Kami menghadirkan produk-produk unggulan yang telah terbukti kualitas dan keandalannya di
+                            berbagai sektor industri. Setiap produk kami dirancang untuk memberikan solusi terbaik,
+                            efisiensi tinggi, dan daya tahan maksimal sesuai kebutuhan Anda.
+                        </p>
+                    </div>
+                    <div class="relative">
+                        <div class="flex gap-8 overflow-x-auto scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-gray-200 pb-4"
+                            style="scroll-snap-type: x mandatory;">
+                            <!-- Ebara Card -->
+                            <div x-data="{ show: false }" @mouseenter="show = true" @mouseleave="show = false"
+                                @click="show = !show"
+                                class="min-w-[280px] max-w-xs flex-shrink-0 bg-stone-50 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center p-8 scroll-snap-align-start relative cursor-pointer hover:scale-105 hover:-translate-y-2 transition-all duration-500"
+                                data-aos="zoom-in" data-aos-delay="200">
+                                <img src="./img/logo/ebara.png" alt="Ebara" class="h-20 mb-6 object-contain">
+                                <h3 class="text-xl font-bold mb-2 text-gray-800">Ebara</h3>
+                                <p class="text-gray-600 mb-4 text-center">Pompa industri dan submersible dengan
+                                    teknologi Jepang, efisiensi tinggi, dan daya tahan luar biasa untuk aplikasi air
+                                    bersih maupun limbah.</p>
+                                <a href="/produk/ebara" x-data="{ clicked: false }"
+                                    @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                                    :class="{ 'opacity-50 pointer-events-none': clicked }"
+                                    class="mt-auto inline-block bg-red-600 hover:bg-amber-500 text-white font-semibold px-6 py-2 rounded transition-colors duration-300">Lihat
+                                    Detail</a>
+                                <!-- Overlay/Detail -->
+                                <div x-show="show" x-transition
+                                    class="absolute inset-0 bg-white bg-opacity-95 flex flex-col items-center justify-center p-6 rounded-xl shadow-xl z-10"
+                                    @click.away="show = false">
+                                    <h3 class="text-xl font-bold mb-2 text-gray-800">Ebara</h3>
+                                    <p class="text-gray-600 mb-4 text-center">Pompa industri dan submersible dengan
+                                        teknologi Jepang, efisiensi tinggi, dan daya tahan luar biasa untuk aplikasi air
+                                        bersih maupun limbah.</p>
+                                    <a href="/produk/ebara"
+                                        class="inline-block bg-red-600 hover:bg-amber-500 text-white font-semibold px-6 py-2 rounded transition-colors duration-300">Lihat
+                                        Detail</a>
+                                </div>
+                            </div>
+                            <!-- Titan Card -->
+                            <div x-data="{ show: false }" @mouseenter="show = true" @mouseleave="show = false"
+                                @click="show = !show"
+                                class="min-w-[280px] max-w-xs flex-shrink-0 bg-stone-50 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center p-8 scroll-snap-align-start relative cursor-pointer hover:scale-105 hover:-translate-y-2 transition-all duration-500"
+                                data-aos="zoom-in" data-aos-delay="400">
+                                <img src="./img/logo/titan.png" alt="Titan" class="h-20 mb-6 object-contain">
+                                <h3 class="text-xl font-bold mb-2 text-gray-800">Titan</h3>
+                                <p class="text-gray-600 mb-4 text-center">Motor listrik dan pompa heavy-duty, handal
+                                    untuk kebutuhan industri berat, dengan performa stabil dan perawatan minimal.</p>
+                                <a href="/produk/titan" x-data="{ clicked: false }"
+                                    @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                                    :class="{ 'opacity-50 pointer-events-none': clicked }"
+                                    class="mt-auto inline-block bg-red-600 hover:bg-amber-500 text-white font-semibold px-6 py-2 rounded transition-colors duration-300">Lihat
+                                    Detail</a>
+                                <!-- Overlay/Detail -->
+                                <div x-show="show" x-transition
+                                    class="absolute inset-0 bg-white bg-opacity-95 flex flex-col items-center justify-center p-6 rounded-xl shadow-xl z-10"
+                                    @click.away="show = false">
+                                    <h3 class="text-xl font-bold mb-2 text-gray-800">Titan</h3>
+                                    <p class="text-gray-600 mb-4 text-center">Motor listrik dan pompa heavy-duty,
+                                        handal untuk kebutuhan industri berat, dengan performa stabil dan perawatan
+                                        minimal.</p>
+                                    <a href="/produk/titan"
+                                        class="inline-block bg-red-600 hover:bg-amber-500 text-white font-semibold px-6 py-2 rounded transition-colors duration-300">Lihat
+                                        Detail</a>
+                                </div>
+                            </div>
+                            <!-- Grundfos Card -->
+                            <div x-data="{ show: false }" @mouseenter="show = true" @mouseleave="show = false"
+                                @click="show = !show"
+                                class="min-w-[280px] max-w-xs flex-shrink-0 bg-stone-50 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center p-8 scroll-snap-align-start relative cursor-pointer hover:scale-105 hover:-translate-y-2 transition-all duration-500"
+                                data-aos="zoom-in" data-aos-delay="600">
+                                <img src="./img/logo/grundfos2.png" alt="Grundfos" class="h-20 mb-6 object-contain">
+                                <h3 class="text-xl font-bold mb-2 text-gray-800">Grundfos</h3>
+                                <p class="text-gray-600 mb-4 text-center">Solusi pompa global untuk efisiensi energi,
+                                    ramah lingkungan, dan teknologi mutakhir untuk berbagai aplikasi air dan industri.
+                                </p>
+                                <a href="/produk/grundfos" x-data="{ clicked: false }"
+                                    @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                                    :class="{ 'opacity-50 pointer-events-none': clicked }"
+                                    class="mt-auto inline-block bg-red-600 hover:bg-amber-500 text-white font-semibold px-6 py-2 rounded transition-colors duration-300">Lihat
+                                    Detail</a>
+                                <!-- Overlay/Detail -->
+                                <div x-show="show" x-transition
+                                    class="absolute inset-0 bg-white bg-opacity-95 flex flex-col items-center justify-center p-6 rounded-xl shadow-xl z-10"
+                                    @click.away="show = false">
+                                    <h3 class="text-xl font-bold mb-2 text-gray-800">Grundfos</h3>
+                                    <p class="text-gray-600 mb-4 text-center">Solusi pompa global untuk efisiensi
+                                        energi, ramah lingkungan, dan teknologi mutakhir untuk berbagai aplikasi air dan
+                                        industri.</p>
+                                    <a href="/produk/grundfos"
+                                        class="inline-block bg-red-600 hover:bg-amber-500 text-white font-semibold px-6 py-2 rounded transition-colors duration-300">Lihat
+                                        Detail</a>
+                                </div>
+                            </div>
+                            <!-- Siemens Card -->
+                            <div x-data="{ show: false }" @mouseenter="show = true" @mouseleave="show = false"
+                                @click="show = !show"
+                                class="min-w-[280px] max-w-xs flex-shrink-0 bg-stone-50 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center p-8 scroll-snap-align-start relative cursor-pointer hover:scale-105 hover:-translate-y-2 transition-all duration-500"
+                                data-aos="zoom-in" data-aos-delay="800">
+                                <img src="./img/logo/siemens.png" alt="Siemens"
+                                    class="h-8 mt-12 mb-6 object-contain">
+                                <h3 class="text-xl font-bold mb-2 text-gray-800">Siemens</h3>
+                                <p class="text-gray-600 mb-4 text-center">Motor listrik industri dengan efisiensi
+                                    tinggi, teknologi Jerman, dan keandalan untuk berbagai aplikasi otomasi dan
+                                    manufaktur.</p>
+                                <a href="/produk/siemens"
+                                    class="mt-auto inline-block bg-red-600 hover:bg-amber-500 text-white font-semibold px-6 py-2 rounded transition-colors duration-300">Lihat
+                                    Detail</a>
+                                <!-- Overlay/Detail -->
+                                <div x-show="show" x-transition
+                                    class="absolute inset-0 bg-white bg-opacity-95 flex flex-col items-center justify-center p-6 rounded-xl shadow-xl z-10"
+                                    @click.away="show = false">
+                                    <h3 class="text-xl font-bold mb-2 text-gray-800">Siemens</h3>
+                                    <p class="text-gray-600 mb-4 text-center">Motor listrik industri dengan efisiensi
+                                        tinggi, teknologi Jerman, dan keandalan untuk berbagai aplikasi otomasi dan
+                                        manufaktur.</p>
+                                    <a href="/produk/siemens"
+                                        class="inline-block bg-red-600 hover:bg-amber-500 text-white font-semibold px-6 py-2 rounded transition-colors duration-300">Lihat
+                                        Detail</a>
+                                </div>
+                            </div>
+                            <!-- Torishima Card -->
+                            <div x-data="{ show: false }" @mouseenter="show = true" @mouseleave="show = false"
+                                @click="show = !show"
+                                class="min-w-[280px] max-w-xs flex-shrink-0 bg-stone-50 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center p-8 scroll-snap-align-start relative cursor-pointer hover:scale-105 hover:-translate-y-2 transition-all duration-500"
+                                data-aos="zoom-in" data-aos-delay="1000">
+                                <img src="./img/logo/torishima.png" alt="Torishima"
+                                    class="h-13 mt-10 mb-6 object-contain">
+                                <h3 class="text-xl font-bold mb-2 text-gray-800">Torishima</h3>
+                                <p class="text-gray-600 mb-4 text-center">Pompa sentrifugal premium dari Jepang, ideal
+                                    untuk aplikasi industri berat, pembangkit listrik, dan infrastruktur air.</p>
+                                <a href="/produk/torishima" x-data="{ clicked: false }"
+                                    @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                                    :class="{ 'opacity-50 pointer-events-none': clicked }"
+                                    class="mt-auto inline-block bg-red-600 hover:8bg-amber-500 text-white font-semibold px-6 py-2 rounded transition-colors duration-300">Lihat
+                                    Detail</a>
+                                <!-- Overlay/Detail -->
+                                <div x-show="show" x-transition
+                                    class="absolute inset-0 bg-white bg-opacity-95 flex flex-col items-center justify-center p-6 rounded-xl shadow-xl z-10"
+                                    @click.away="show = false">
+                                    <h3 class="text-xl font-bold mb-2 text-gray-800">Torishima</h3>
+                                    <p class="text-gray-600 mb-4 text-center">Pompa sentrifugal premium dari Jepang,
+                                        ideal untuk aplikasi industri berat, pembangkit listrik, dan infrastruktur air.
+                                    </p>
+                                    <a href="/produk/torishima"
+                                        class="inline-block bg-red-600 hover:bg-amber-500 text-white font-semibold px-6 py-2 rounded transition-colors duration-300">Lihat
+                                        Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {{-- Akhir Main Product Section --}}
+
             {{-- our Advantages --}}
 
-            <section class="bg-gray-100 py-16 lg:py-20">
+            <section class="bg-gray-100 py-16 lg:py-20" data-aos="fade-up" data-aos-duration="1200">
                 <div class="container mx-auto px-4 lg:px-8">
                     <div class="grid lg:grid-cols-1 gap-12 lg:gap-16">
                         <div>
-                            <h2
-                                class="text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-amber-500 via-red-600 to-gray-200 bg-clip-text text-transparent mb-6 text-center">
+                            <h2 class="text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-amber-500 via-red-600 to-gray-200 bg-clip-text text-transparent mb-6 text-center"
+                                data-aos="fade-down" data-aos-delay="200">
                                 OUR ADVANTAGES
                             </h2>
 
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                                 <!-- Advantage 1 -->
-                                <div class="flex flex-col items-center text-center p-6">
+                                <div class="flex flex-col items-center text-center p-6" data-aos="zoom-in"
+                                    data-aos-delay="400">
                                     <div
                                         class="w-20 h-20 bg-gradient-to-r from-stone-200  to-red-600 rounded-full flex items-center justify-center mb-4">
                                         <!-- Replace with your actual logo/image -->
@@ -299,7 +635,8 @@
                                 </div>
 
                                 <!-- Advantage 2 -->
-                                <div class="flex flex-col items-center text-center p-6">
+                                <div class="flex flex-col items-center text-center p-6" data-aos="zoom-in"
+                                    data-aos-delay="600">
                                     <div
                                         class="w-20 h-20 bg-gradient-to-r from-stone-200  to-red-600 rounded-full flex items-center justify-center mb-4">
                                         <!-- Replace with your actual logo/image -->
@@ -313,7 +650,8 @@
                                 </div>
 
                                 <!-- Advantage 3 -->
-                                <div class="flex flex-col items-center text-center p-6">
+                                <div class="flex flex-col items-center text-center p-6" data-aos="zoom-in"
+                                    data-aos-delay="800">
                                     <div
                                         class="w-20 h-20 bg-gradient-to-r from-stone-200  to-red-600 rounded-full flex items-center justify-center mb-4">
                                         <!-- Replace with your actual logo/image -->
@@ -334,12 +672,14 @@
 
             {{-- Contact us dan tentang kami --}}
             {{-- Produk Kami & Contact Section --}}
-            <section class="bg-white py-16 lg:py-20"> {{-- ubah dari bg-gray-100 ke bg-white --}}
+            <section class="bg-white py-16 lg:py-20" data-aos="fade-up" data-aos-duration="1200">
+                {{-- ubah dari bg-gray-100 ke bg-white --}}
                 <div class="container mx-auto px-4 lg:px-8">
                     <div class="grid lg:grid-cols-2 gap-12 lg:gap-16">
                         {{-- Left Side - Produk Kami --}}
                         <div>
-                            <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-800 mb-6">
+                            <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-800 mb-6" data-aos="fade-right"
+                                data-aos-delay="200">
                                 PRODUK KAMI
                             </h2>
                             <p class="text-gray-600 text-lg mb-8">
@@ -348,7 +688,8 @@
 
                             <div class="space-y-8">
                                 {{-- Electric Motors --}}
-                                <div class="border-l-4 border-red-600 pl-6">
+                                <div class="border-l-4 border-red-600 pl-6" data-aos="fade-left"
+                                    data-aos-delay="400">
                                     <h3 class="text-xl font-semibold text-gray-800 mb-4">
                                         1. Electric Motors
                                     </h3>
@@ -369,7 +710,8 @@
                                 </div>
 
                                 {{-- Water Pumps --}}
-                                <div class="border-l-4 border-amber-500 pl-6">
+                                <div class="border-l-4 border-amber-500 pl-6" data-aos="fade-left"
+                                    data-aos-delay="600">
                                     <h3 class="text-xl font-semibold text-gray-800 mb-4">
                                         2. Water Pumps
                                     </h3>
@@ -381,7 +723,8 @@
                                 </div>
 
                                 {{-- Control Systems --}}
-                                <div class="border-l-4 border-gray-300 pl-6">
+                                <div class="border-l-4 border-gray-300 pl-6" data-aos="fade-left"
+                                    data-aos-delay="800">
                                     <h3 class="text-xl font-semibold text-gray-800 mb-4">
                                         3. Control Systems
                                     </h3>
@@ -396,7 +739,7 @@
 
                         {{-- Right Side - Contact Us --}}
                         <div>
-                            <div class="mb-8">
+                            <div class="mb-8" data-aos="fade-left" data-aos-delay="200">
                                 <h4 class="text-sm font-semibold tracking-wide uppercase text-gray-400 mb-4">Our
                                     Solution
                                 </h4>
@@ -429,7 +772,7 @@
 
 
 
-                            <div class="mt-8 pt-8 border-t border-gray-200">
+                            <div class="mt-8 pt-8 border-t border-gray-200" data-aos="fade-up" data-aos-delay="400">
                                 <div class="text-center space-y-3">
                                     <div class="flex items-center justify-center gap-2 text-gray-600">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor"
@@ -459,55 +802,68 @@
 
             {{-- Logo (home) --}}
 
-            <section class="py-12 bg-gray-50">
+            <section class="py-12 bg-gray-50" data-aos="fade-up" data-aos-duration="1200">
                 <div class="container mx-auto px-4">
-                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">Merek Kami</h2>
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-10" data-aos="fade-down"
+                        data-aos-delay="200">Merek Kami</h2>
 
                     {{-- Grid untuk menampilkan logo --}}
                     <div
                         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-items-center">
                         {{-- Baris 1 --}}
-                        <div class="p-2">
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="200">
                             <img src="{{ asset('./img/logo/siemens.png') }}" alt="Siemens"
                                 class="max-h-16 w-auto object-contain">
                         </div>
-                        <div class="p-2">
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="300">
                             <img src="{{ asset('./img/logo/teco.png') }}" alt="Teco"
                                 class="max-h-16 w-auto object-contain">
                         </div>
-                        <div class="p-2">
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="400">
                             <img src="{{ asset('./img/logo/koshin.png') }}" alt="koshin"
                                 class="max-h-14 w-auto object-contain">
                         </div>
-                        <div class="p-2">
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="500">
                             <img src="{{ asset('./img/logo/titan.png') }}" alt="Titan"
                                 class="max-h-14 w-auto object-contain">
                         </div>
-                        <div class="p-2">
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="600">
                             <img src="{{ asset('./img/logo/cummins.png') }}" alt="Cummins"
                                 class="max-h-14 w-auto object-contain">
                         </div>
-                        <div class="p-2">
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="700">
                             <img src="{{ asset('./img/logo/torishima.png') }}" alt="Torishima"
                                 class="max-h-14 w-auto object-contain">
                         </div>
 
                         {{-- Baris 2 --}}
-                        <div class="p-2">
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="800">
                             <img src="{{ asset('./img/logo/ebara.png') }}" alt="Ebara"
                                 class="max-h-16 w-auto object-contain">
                         </div>
-                        <div class="p-2">
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="900">
                             <img src="{{ asset('./img/logo/ksb2.png') }}" alt="KSB"
                                 class="max-h-16 w-auto object-contain">
                         </div>
-                        <div class="p-2">
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="1000">
                             <img src="{{ asset('./img/logo/grundfos2.png') }}" alt="Grundfos"
                                 class="max-h-16 w-auto object-contain">
                         </div>
-                        <div class="p-2">
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="1100">
                             <img src="{{ asset('./img/logo/isuzu.png') }}" alt="Isuzu"
                                 class="max-h-14 w-auto object-contain">
+                        </div>
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="1100">
+                            <img src="{{ asset('./img/logo/fawde.png') }}" alt="Fawde"
+                                class="max-h-14 w-auto object-contain">
+                        </div>
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="1100">
+                            <img src="{{ asset('./img/logo/tival.png') }}" alt="Tival Sensor"
+                                class="max-h-17 w-auto object-contain">
+                        </div>
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="1100">
+                            <img src="{{ asset('./img/logo/motology.png') }}" alt="Motology Electric"
+                                class="max-h-17 w-auto object-contain">
                         </div>
                         {{-- Tambahkan logo lain sesuai kebutuhan --}}
                     </div>
@@ -575,6 +931,7 @@
 
 
 
+
         </main>
     </div>
 
@@ -588,22 +945,24 @@
         const scrollContainer = document.getElementById('productScroll');
         const scrollLeft = document.getElementById('scrollLeft');
         const scrollRight = document.getElementById('scrollRight');
-
         const cardWidth = 335; // 280 min-w + 12 gap (per card)
 
-        scrollRight.addEventListener('click', () => {
-            scrollContainer.scrollBy({
-                left: cardWidth,
-                behavior: 'smooth'
+        if (scrollRight && scrollContainer) {
+            scrollRight.addEventListener('click', () => {
+                scrollContainer.scrollBy({
+                    left: cardWidth,
+                    behavior: 'smooth'
+                });
             });
-        });
-
-        scrollLeft.addEventListener('click', () => {
-            scrollContainer.scrollBy({
-                left: -cardWidth,
-                behavior: 'smooth'
+        }
+        if (scrollLeft && scrollContainer) {
+            scrollLeft.addEventListener('click', () => {
+                scrollContainer.scrollBy({
+                    left: -cardWidth,
+                    behavior: 'smooth'
+                });
             });
-        });
+        }
     </script>
 
 

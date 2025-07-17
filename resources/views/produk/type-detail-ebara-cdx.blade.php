@@ -7,11 +7,37 @@
         @if ($product)
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
                 {{-- Gambar Produk --}}
-                <div class="text-center">
-                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
-                        class="mx-auto max-h-[350px] object-contain mb-4">
-                    <div class="inline-block border border-gray-300 p-1">
-                        <img src="{{ asset($product->image) }}" alt="Thumbnail" class="w-16 h-auto object-contain">
+                <div x-data="{
+                    images: [
+                        '{{ asset($product->image) }}',
+                    ],
+                    currentIndex: 0,
+                    get currentImage() {
+                        return this.images[this.currentIndex];
+                    },
+                    next() {
+                        this.currentIndex = (this.currentIndex + 1) % this.images.length;
+                    },
+                    prev() {
+                        this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+                    },
+                    select(index) {
+                        this.currentIndex = index;
+                    }
+                }" class="text-center relative">
+                    {{-- Gambar Utama --}}
+                    <div class="relative">
+                        <img :src="currentImage" alt="CDX Main Image"
+                            class="mx-auto max-h-[350px] object-contain mb-4 transition duration-300 ease-in-out">
+
+                    </div>
+                    {{-- Thumbnail --}}
+                    <div class="flex justify-center gap-4 mt-4">
+                        <template x-for="(img, index) in images" :key="index">
+                            <img :src="img" @click="select(index)"
+                                :class="index === currentIndex ? 'border-1' : 'border'"
+                                class="w-20 h-20 object-contain cursor-pointer rounded transition duration-200">
+                        </template>
                     </div>
                 </div>
 
@@ -46,10 +72,7 @@
 "
                             target="_blank"
                             class="inline-flex items-center gap-2 px-5 py-3 mt-6 bg-green-500 text-white font-semibold rounded-full shadow-md hover:bg-green-600 hover:shadow-lg transition duration-300 ease-in-out">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 32 32">
-                                <path
-                                    d="M16.001 2.667c-7.333 0-13.333 6-13.333 13.333 0 2.368.625 4.601 1.801 6.585l-1.9 6.383 6.553-1.881c1.896 1.036 4.045 1.58 6.238 1.58 7.333 0 13.333-6 13.333-13.333s-6-13.334-13.334-13.334zM16 24c-1.876 0-3.711-.499-5.316-1.443l-.381-.225-3.888 1.116 1.158-3.892-.248-.4C6.207 17.46 5.667 15.75 5.667 14c0-5.666 4.667-10.333 10.333-10.333 5.667 0 10.334 4.667 10.334 10.333 0 5.667-4.667 10.334-10.334 10.334zM21.42 18.476c-.292-.146-1.73-.856-1.997-.953-.266-.098-.46-.146-.654.146s-.748.953-.917 1.15c-.168.195-.337.219-.629.073-.293-.146-1.237-.456-2.357-1.454-.872-.778-1.461-1.737-1.632-2.029-.17-.293-.018-.45.128-.595.132-.13.292-.337.439-.506.147-.17.196-.293.293-.488.097-.195.048-.366-.024-.512-.073-.146-.653-1.579-.894-2.167-.235-.566-.472-.49-.653-.5-.168-.006-.365-.007-.561-.007s-.512.073-.78.366c-.268.293-1.025 1.001-1.025 2.439 0 1.438 1.051 2.826 1.196 3.02.146.195 2.071 3.17 5.021 4.442.702.303 1.25.484 1.676.619.704.224 1.344.193 1.85.117.565-.084 1.73-.707 1.975-1.388.244-.682.244-1.267.17-1.388-.073-.121-.267-.194-.56-.341z" />
-                            </svg>
+                            <i class="bi bi-whatsapp"></i>
                             Tanya via WhatsApp
                         </a>
                     </div>

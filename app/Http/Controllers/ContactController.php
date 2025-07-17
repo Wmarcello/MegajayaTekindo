@@ -14,6 +14,7 @@ class ContactController extends Controller
             'email'   => 'required|email',
             'phone'   => 'required|string|max:30',
             'message' => 'required|string',
+            'g-recaptcha-response' => 'required|captcha',
         ]);
 
         // Kirim email ke admin Gmail

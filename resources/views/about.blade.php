@@ -14,16 +14,13 @@
 
         <!-- Animasi Bola -->
         <!-- Bola kiri atas -->
-        <div class="absolute top-6 left-6 w-16 h-16 sm:w-32 sm:h-32 bg-white bg-opacity-10 rounded-full animate-pulse z-0">
-        </div>
+        <div class="absolute top-6 left-6 w-16 h-16 sm:w-32 sm:h-32 bg-white bg-opacity-10 rounded-full animate-pulse z-0"></div>
         <!-- Bola tengah bawah judul, responsive -->
         <div
-            class="absolute top-1/3 left-1/2 w-12 h-12 sm:w-24 sm:h-24 bg-white bg-opacity-10 rounded-full animate-bounce z-0 transform -translate-x-1/2">
-        </div>
+            class="absolute top-1/3 left-1/2 w-12 h-12 sm:w-24 sm:h-24 bg-white bg-opacity-10 rounded-full animate-bounce z-0 transform -translate-x-1/2"></div>
         <!-- Bola kanan bawah -->
         <div
-            class="absolute bottom-8 right-6 w-14 h-14 sm:w-20 sm:h-20 bg-yellow-400 bg-opacity-20 rounded-full animate-ping z-0">
-        </div>
+            class="absolute bottom-8 right-6 w-14 h-14 sm:w-20 sm:h-20 bg-yellow-400 bg-opacity-20 rounded-full animate-ping z-0"></div>
 
         <!-- Konten Hero -->
         <div class="relative z-10 flex items-center justify-center h-full text-center px-4">
@@ -151,8 +148,7 @@
             <div x-data="{ show: false, img: '' }">
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                     @foreach ($galleryImages as $img)
-                        <div
-                            class="relative overflow-hidden rounded-2xl shadow hover:shadow-lg transition-all duration-300 group">
+                        <div class="relative overflow-hidden rounded-2xl shadow hover:shadow-lg transition-all duration-300 group">
                             <img src="{{ asset('img/galleryproject/' . $img) }}" alt="Project"
                                 class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer"
                                 @click="show = true; img = '{{ asset('img/galleryproject/' . $img) }}'">
@@ -422,7 +418,10 @@
                         <div style="font-weight:bold; color:#b91c1c; margin-bottom:10px;">{{ $product->name }}</div>
                         @if ($product->type)
                             <a href="{{ route('produk.type.detail', ['brand' => Str::slug($product->brand), 'type' => $product->type]) }}"
-                                class="inline-block px-5 py-2 bg-red-600 text-white rounded-full font-semibold mt-2 transition hover:bg-red-700">
+                               x-data="{clicked: false}"
+                               @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                               :class="{'opacity-50 pointer-events-none': clicked}"
+                               class="inline-block px-5 py-2 bg-red-600 text-white rounded-full font-semibold mt-2 transition hover:bg-red-700">
                                 Lihat Detail
                             </a>
                         @endif

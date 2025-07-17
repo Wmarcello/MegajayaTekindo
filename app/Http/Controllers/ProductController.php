@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Str;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductController extends Controller
 {
@@ -55,8 +56,31 @@ class ProductController extends Controller
 
     public function brand($brand)
     {
-        $products = Product::whereRaw('LOWER(REPLACE(brand, " ", "-")) = ?', [$brand])
-            ->paginate(12);
+        $allProducts = Product::get()->filter(function($p) use ($brand) {
+            return \Illuminate\Support\Str::slug(trim($p->brand)) === trim($brand);
+        })->values();
+
+        if ($allProducts->count() == 0) {
+            // Debug info jika tidak ada produk ditemukan
+            return response()->view('produk.brand', [
+                'products' => collect([]),
+                'brandDisplay' => ucfirst(str_replace('-', ' ', $brand)),
+                'categories' => Category::active()->ordered()->with(['products' => function($q) {
+                    $q->active()->ordered();
+                }])->get(),
+                'errorMsg' => 'Tidak ada produk ditemukan untuk brand: ' . $brand . '. Data brand di database: ' . Product::pluck('brand')->join(', ')
+            ]);
+        }
+
+        $page = request('page', 1);
+        $perPage = 12;
+        $products = new \Illuminate\Pagination\LengthAwarePaginator(
+            $allProducts->forPage($page, $perPage),
+            $allProducts->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
 
         $brandDisplay = ucfirst(str_replace('-', ' ', $brand));
 
@@ -100,13 +124,30 @@ class ProductController extends Controller
              return view('produk.type-detail-ebara-cdx', compact('product', 'brand', 'type', 'categories'));
         } elseif ($brand === 'ebara' && $type === 'Dvs-Ds-Dl-Df') {
             return view('produk.type-detail-ebara-dseries', compact('product', 'brand', 'type', 'categories'));
+        } elseif ($brand === 'ebara' && $type === 'sqpb-series') {
+            return view('produk.type-detail-ebara-sqpb', compact('product', 'brand', 'type', 'categories'));
+        } elseif ($brand === 'ebara' && $type === '2cdx-series') {
+            return view('produk.type-detail-ebara-2cdx', compact('product', 'brand', 'type', 'categories'));
+        } elseif ($brand === 'ebara' && $type === 'evms(L)(G)-series') {
+            return view('produk.type-detail-ebara-evms', compact('product', 'brand', 'type', 'categories'));
         }
         // Ebara akhir product
+
+        // Fu-tsu (Bowler)
+        elseif ($brand === 'futsu' && $type === 'ts-series') {
+            return view('produk.type-detail-fu-tsu-ts', compact('product', 'brand', 'type', 'categories'));
+        }
+        // Fu-tsu akhir product
 
         //  Grundfos Product
         elseif($brand === 'grundfos' && $type === 'sp-series') {
             return view('produk.type-detail-grundfos-sp', compact('product', 'brand', 'type', 'categories'));
+        } elseif ($brand === 'grundfos' && $type === 'cr-crn-series') {
+            return view('produk.type-detail-grundfos-cr', compact('product', 'brand', 'type', 'categories'));
+        } elseif ($brand === 'grundfos' && $type === 'cm-cme-series') {
+            return view('produk.type-detail-grundfos-cm', compact('product', 'brand', 'type', 'categories'));
         }
+        // Grundfos akhir product
 
         // Torishima Product
         elseif ($brand === 'torishima' && $type === 'cen-series') {
@@ -119,6 +160,10 @@ class ProductController extends Controller
             return view('produk.type-detail-siemens-electric', compact('product', 'brand', 'type', 'categories'));
         } elseif ($brand === 'teco' && $type === 'AESV1S') {
             return view('produk.type-detail-teco-electric', compact('product', 'brand', 'type', 'categories'));
+        } elseif ($brand === 'motology' && $type === '3-phase') {
+            return view('produk.type-detail-motology-electric-3phase', compact('product', 'brand', 'type', 'categories'));
+        } elseif ($brand === 'motology' && $type === '1-phase') {
+            return view('produk.type-detail-motology-electric-1phase', compact('product', 'brand', 'type', 'categories'));
 
             // Diesel Motor
         } elseif ($brand === 'isuzu' && $type === '4JB1T') {
@@ -129,9 +174,14 @@ class ProductController extends Controller
             // Tival Product
         } elseif ($brand === 'tival' && $type === 'FF-4') {
             return view('produk.type-detail-tival-ff4', compact('product', 'brand', 'type', 'categories'));
-
+        } elseif ($brand === 'ebara' && $type === 'impeller Ebara') {
+            return view('produk.type-detail-impeller-ebara', compact('product', 'brand', 'type', 'categories'));
             // Koshin Product
-        } else {
+        } elseif ($brand === 'ebara' && $type === 'seal-kit Ebara') {
+            return view('produk.type-detail-seal-kit-ebara', compact('product', 'brand', 'type', 'categories'));
+        }
+        
+        else {
             // Default (misal: koshin)
             return view('produk.type-detail', compact('product', 'brand', 'type', 'categories'));
         }

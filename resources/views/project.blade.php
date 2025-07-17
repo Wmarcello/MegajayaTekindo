@@ -1,17 +1,22 @@
 @extends('layouts.main')
 
-@section('title', 'Proyek Kami - Mega Jaya Tekindo')
+@section('title', 'Project - Mega Jaya Tekindo')
 
 @section('content')
     <!-- Hero Section -->
-    <section class="relative py-20 bg-gradient-to-br from-red-600 via-red-700 to-red-800 text-white text-center">
-        <div class="container mx-auto px-6 lg:px-8">
-            <h1 class="text-4xl md:text-4xl font-bold mb-4">Project <span class="text-yellow-300">Mega Jaya Tekindo</span>
-            </h1>
-            <p class="text-lg md:text-lg max-w-2xl mx-auto text-gray-100">
-                Menjadi mitra terpercaya dalam berbagai proyek industri di Indonesia, Mega Jaya Tekindo telah berkontribusi
-                pada ratusan instalasi pompa dan sistem air di berbagai sektor.
-            </p>
+    <section class="relative py-20 bg-cover bg-center bg-no-repeat text-white text-center"
+        style="background-image: url('/img/galleryproject/ChillerPump3.jpg');">
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="relative z-10">
+            <div class="container mx-auto px-6 lg:px-8">
+                <h1 class="text-4xl md:text-4xl font-bold mb-4">Project <span class="text-yellow-300">Mega Jaya Tekindo</span>
+                </h1>
+                <p class="text-lg md:text-lg max-w-2xl mx-auto text-gray-100">
+                    Menjadi mitra terpercaya dalam berbagai proyek industri di Indonesia, Mega Jaya Tekindo telah
+                    berkontribusi
+                    pada ratusan instalasi pompa dan sistem air di berbagai sektor.
+                </p>
+            </div>
         </div>
     </section>
 

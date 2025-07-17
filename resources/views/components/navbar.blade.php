@@ -14,10 +14,8 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     {{-- Akhir AOS --}}
 
-    <title> Navbar Project MJT</title>
-
+    <title>Navbar Project MJT</title>
 </head>
-
 
 <body class="min-h-screen scroll-smooth overflow-x-hidden">
 
@@ -31,13 +29,12 @@
                         </div>
                         <div class="hidden md:flex flex-1 justify-center">
                             <div class="ml-10 flex items-baseline space-x-8">
-                                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-800 hover:bg-gray-700 hover:text-white" -->
                                 <a href="/home"
                                     class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">Home</a>
                                 <a href="/about"
-                                    class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white ">About</a>
-                                {{-- Product Menu --}}
+                                    class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">About</a>
 
+                                {{-- Product Menu --}}
                                 <div class="relative group">
                                     <a href="#"
                                         class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">
@@ -50,28 +47,103 @@
                                                 <div>
                                                     <h4 class="font-bold mb-2">{{ $category->name }}</h4>
                                                     <ul class="space-y-1">
-                                                        @foreach ($category->products as $product)
-                                                            <li>
-                                                                <a href="{{ route('produk.brand', ['brand' => Str::slug($product->brand)]) }}"
-                                                                    class="hover:underline">
-                                                                    {{ $product->name }}
-                                                                </a>
-                                                            </li>
-                                                        @endforeach
+                                                        @php
+                                                            $products = collect($category->products)->filter(
+                                                                fn($p) => !empty($p->brand),
+                                                            );
+                                                            $brands = $products->pluck('brand')->unique();
+                                                        @endphp
+
+                                                        @if (Str::lower($category->name) === 'accessories')
+                                                            @php
+                                                                $ebaraAccessories = $products->filter(
+                                                                    fn($p) => Str::lower($p->brand) === 'ebara',
+                                                                );
+                                                                $hasImpeller = $ebaraAccessories->contains(
+                                                                    fn($p) => Str::contains(
+                                                                        Str::lower($p->name),
+                                                                        'impeller',
+                                                                    ),
+                                                                );
+                                                                $hasSealKit = $ebaraAccessories->contains(
+                                                                    fn($p) => Str::contains(
+                                                                        Str::lower($p->name),
+                                                                        'seal kit',
+                                                                    ),
+                                                                );
+                                                            @endphp
+
+                                                            @if ($hasImpeller)
+                                                                <li>
+                                                                    <a href="{{ route('produk.brand', ['brand' => 'ebara']) }}"
+                                                                        class="hover:underline text-gray-700 hover:text-red-600">
+                                                                        Impeller (Ebara)
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+
+                                                            @if ($hasSealKit)
+                                                                <li>
+                                                                    <a href="{{ route('produk.brand', ['brand' => 'ebara']) }}"
+                                                                        class="hover:underline text-gray-700 hover:text-red-600">
+                                                                        Seal Kit (Ebara)
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+
+                                                            {{-- Tampilkan brand lain di Accessories --}}
+                                                            @foreach ($brands as $brand)
+                                                                @if (Str::lower($brand) !== 'ebara')
+                                                                    <li>
+                                                                        <a href="{{ route('produk.brand', ['brand' => Str::slug($brand)]) }}"
+                                                                            class="hover:underline text-gray-700 hover:text-red-600">
+                                                                            {{ $brand }}
+                                                                        </a>
+                                                                    </li>
+                                                                @endif
+                                                            @endforeach
+                                                        @elseif (Str::lower($category->name) === 'submersible pump')
+                                                            @foreach ($brands as $brand)
+                                                                <li>
+                                                                    <a href="{{ route('produk.brand', ['brand' => Str::slug($brand)]) }}"
+                                                                        class="hover:underline text-gray-700 hover:text-red-600">
+                                                                        @if (Str::lower($brand) === 'ebara')
+                                                                            Ebara D-Series
+                                                                        @else
+                                                                            {{ $brand }}
+                                                                        @endif
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        @else
+                                                            @foreach ($brands as $brand)
+                                                                <li>
+                                                                    <a href="{{ route('produk.brand', ['brand' => Str::slug($brand)]) }}"
+                                                                        class="hover:underline text-gray-700 hover:text-red-600">
+                                                                        {{ $brand }}
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        @endif
                                                     </ul>
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
                                 </div>
-
-
                                 {{-- End Product Menu --}}
 
+
                                 <a href="/project"
-                                    class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">Project</a>
+                                   x-data="{clicked: false}"
+                                   @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                                   :class="{'opacity-50 pointer-events-none': clicked}"
+                                   class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">Project</a>
                                 <a href="/contact"
-                                    class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">Contact</a>
+                                   x-data="{clicked: false}"
+                                   @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                                   :class="{'opacity-50 pointer-events-none': clicked}"
+                                   class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">Contact</a>
 
                                 <form action="{{ route('products.index') }}" method="GET" class="flex items-center">
                                     <input type="text" name="search" placeholder="Cari produk..."
@@ -143,16 +215,80 @@
                             <div x-show="openProduct" x-transition class="mt-2 text-sm text-gray-700 space-y-4 pl-4">
                                 @foreach ($categories ?? [] as $category)
                                     <div>
-                                        <h4 class="font-semibold">{{ $category->name }}</h4>
-                                        <ul class="ml-4 space-y-1">
-                                            @foreach ($category->products as $product)
-                                                <li>
-                                                    <a href="{{ route('produk.brand', ['brand' => Str::slug($product->brand)]) }}"
-                                                        class="hover:underline">
-                                                        {{ $product->name }}
-                                                    </a>
-                                                </li>
-                                            @endforeach
+                                        <h4 class="font-bold mb-2">{{ $category->name }}</h4>
+                                        <ul class="space-y-1">
+                                            @php
+                                                $products = collect($category->products)->filter(
+                                                    fn($p) => !empty($p->brand),
+                                                );
+                                                $brands = $products->pluck('brand')->unique();
+                                            @endphp
+
+                                            @if (Str::lower($category->name) === 'accessories')
+                                                @php
+                                                    $ebaraAccessories = $products->filter(
+                                                        fn($p) => Str::lower($p->brand) === 'ebara',
+                                                    );
+                                                    $hasImpeller = $ebaraAccessories->contains(
+                                                        fn($p) => Str::contains(Str::lower($p->name), 'impeller'),
+                                                    );
+                                                    $hasSealKit = $ebaraAccessories->contains(
+                                                        fn($p) => Str::contains(Str::lower($p->name), 'seal kit'),
+                                                    );
+                                                @endphp
+
+                                                @if ($hasImpeller)
+                                                    <li>
+                                                        <a href="{{ route('produk.brand', ['brand' => 'ebara']) }}"
+                                                            class="hover:underline text-gray-700 hover:text-red-600">
+                                                            Impeller (Ebara)
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                                @if ($hasSealKit)
+                                                    <li>
+                                                        <a href="{{ route('produk.brand', ['brand' => 'ebara']) }}"
+                                                            class="hover:underline text-gray-700 hover:text-red-600">
+                                                            Seal Kit (Ebara)
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                                {{-- Tampilkan brand lain di Accessories --}}
+                                                @foreach ($brands as $brand)
+                                                    @if (Str::lower($brand) !== 'ebara')
+                                                        <li>
+                                                            <a href="{{ route('produk.brand', ['brand' => Str::slug($brand)]) }}"
+                                                                class="hover:underline text-gray-700 hover:text-red-600">
+                                                                {{ $brand }}
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            @elseif (Str::lower($category->name) === 'submersible pump')
+                                                @foreach ($brands as $brand)
+                                                    <li>
+                                                        <a href="{{ route('produk.brand', ['brand' => Str::slug($brand)]) }}"
+                                                            class="hover:underline text-gray-700 hover:text-red-600">
+                                                            @if (Str::lower($brand) === 'ebara')
+                                                                Ebara D-Series
+                                                            @else
+                                                                {{ $brand }}
+                                                            @endif
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            @else
+                                                @foreach ($brands as $brand)
+                                                    <li>
+                                                        <a href="{{ route('produk.brand', ['brand' => Str::slug($brand)]) }}"
+                                                            class="hover:underline text-gray-700 hover:text-red-600">
+                                                            {{ $brand }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            @endif
                                         </ul>
                                     </div>
                                 @endforeach
@@ -170,9 +306,7 @@
                         class="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-red-600 hover:text-white">Contact</a>
                 </div>
             </div>
-    </div>
-    </div>
-    </nav>
+        </nav>
 
 
 </body>
