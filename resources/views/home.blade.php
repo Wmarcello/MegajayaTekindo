@@ -2,14 +2,12 @@
 <html lang="en" class="h-full bg-gray-100 overflow-x-hidden">
 
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {{-- Bootstrap Icon --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     {{-- Akhir Bootstrap Icon --}}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- AOS effek-->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     {{-- Akhir AOS --}}
@@ -863,6 +861,10 @@
                         </div>
                         <div class="p-2" data-aos="zoom-in" data-aos-delay="1100">
                             <img src="{{ asset('./img/logo/motology.png') }}" alt="Motology Electric"
+                                class="max-h-17 w-auto object-contain">
+                        </div>
+                        <div class="p-2" data-aos="zoom-in" data-aos-delay="1100">
+                            <img src="{{ asset('./img/logo/cnp.png') }}" alt="China Nanfang Pumps"
                                 class="max-h-17 w-auto object-contain">
                         </div>
                         {{-- Tambahkan logo lain sesuai kebutuhan --}}

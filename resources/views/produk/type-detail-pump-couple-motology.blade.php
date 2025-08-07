@@ -1,0 +1,161 @@
+@extends('layouts.main')
+
+@section('title', $product ? $product->name . ' - Pump Couple Motology' : 'Produk Tidak Ditemukan')
+
+@section('content')
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" x-data="{
+        pumpBrand: '',
+        flowRate: '',
+        head: '',
+        pole: '',
+        tab: 'spesifikasi',
+        get isValid() {
+            return this.pumpBrand && this.flowRate && this.head && this.pole;
+        },
+        get waMessage() {
+            return `Halo MJT, saya tertarik dengan produk Pump Couple Motology dan ingin konsultasi mengenai kebutuhan saya dengan merek pompa ${this.pumpBrand}, kapasitas ${this.flowRate} m3/h, head ${this.head} meter, dan motor ${this.pole} pole.`;
+        },
+        resetForm() {
+            this.pumpBrand = '';
+            this.flowRate = '';
+            this.head = '';
+            this.pole = '';
+        }
+    }">
+        @if ($product)
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+                {{-- Gambar Produk --}}
+                <div class="text-center relative">
+                    <img src="{{ asset($product->image) }}" alt="Pump Couple Motology"
+                        class="mx-auto max-h-[350px] object-contain mb-4 transition duration-300 ease-in-out">
+                </div>
+
+                {{-- Detail Produk --}}
+                <div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-2">Pump Centrifugal + Motology Electric
+                    </h1>
+                    <div class="w-14 h-1 bg-red-600 mb-5 rounded"></div>
+
+                    <h2 class="text-lg font-semibold mb-1">Fitur :</h2>
+                    <ul class="list-disc list-inside text-gray-700 mb-4 space-y-1">
+                        <li>Ditenagai motor Motology dengan pilihan 2 Pole / 4 Pole</li>
+                        <li>Desain kompak dan kuat untuk pemakaian jangka panjang</li>
+                        <li>Kinerja stabil dengan tingkat getaran rendah</li>
+                        <li>Mudah dirawat dan kompatibel dengan berbagai sistem pompa</li>
+                    </ul>
+
+                    <h2 class="text-lg font-semibold mb-1">Aplikasi :</h2>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Sistem distribusi air dan booster pump</li>
+                        <li>Aplikasi industri ringan hingga menengah</li>
+                        <li>Gedung komersial dan fasilitas utilitas</li>
+                    </ul>
+
+
+                    <div class="mt-4">
+                        <b>Spesifikasi:</b>
+                        <div>{{ $product->specifications }}</div>
+                    </div>
+
+                    <hr class="my-6 border-t border-red-600 mb-4">
+
+                    <div class="grid gap-4">
+                        <div>
+                            <label class="font-semibold">Pilih Merek Pompa:</label>
+                            <select x-model="pumpBrand" class="w-full mt-1 p-2 border rounded">
+                                <option value="">Pilih Merek</option>
+                                <option value="EBARA">EBARA</option>
+                                <option value="Torishima">Torishima</option>
+                                <option value="KSB">KSB</option>
+                                <option value="Other">Lainnya</option>
+                            </select>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-1">
+                                <label class="font-semibold">Kapasitas (m3/h):</label>
+                                <input type="number" x-model="flowRate" class="w-full mt-1 p-2 border rounded"
+                                    placeholder="Contoh: 150">
+                            </div>
+                            <div class="flex-1/2">
+                                <label class="font-semibold">Head (m):</label>
+                                <input type="number" x-model="head" class="w-full mt-1 p-2 border rounded"
+                                    placeholder="Contoh: 60">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="font-semibold">Jumlah Pole Motor:</label>
+                            <select x-model="pole" class="w-full mt-1 p-2 border rounded">
+                                <option value="">Pilih Pole</option>
+                                <option value="2">2 Pole</option>
+                                <option value="4">4 Pole</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <template x-if="isValid">
+                            <a :href="`https://wa.me/6285775230813?text=${encodeURIComponent(waMessage)}`"
+                                @click="resetForm()" target="_blank"
+                                class="inline-flex items-center gap-2 px-5 py-3 bg-green-500 text-white font-semibold rounded-full shadow-md hover:bg-green-600 hover:shadow-lg transition duration-300 ease-in-out">
+                                <i class="bi bi-whatsapp"></i>
+                                Tanya via WhatsApp
+                            </a>
+                        </template>
+                        <template x-if="!isValid">
+                            <button disabled
+                                class="inline-flex items-center gap-2 px-5 py-3 bg-gray-400 text-white font-semibold rounded-full shadow-md cursor-not-allowed">
+                                <i class="bi bi-whatsapp"></i>
+                                Lengkapi Form Terlebih Dahulu
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Tabs --}}
+            <div class="mt-10">
+                <div class="border-b border-gray-200 mb-4">
+                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                        <button @click="tab = 'spesifikasi'"
+                            :class="tab === 'spesifikasi' ? 'border-red-600 text-red-600' :
+                                'border-transparent text-gray-500 hover:text-gray-700'"
+                            class="whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm">
+                            SPESIFIKASI
+                        </button>
+                        <button @click="tab = 'dimension'"
+                            :class="tab === 'dimension' ? 'border-red-600 text-red-600' :
+                                'border-transparent text-gray-500 hover:text-gray-700'"
+                            class="whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm">
+                            DIMENSION
+                        </button>
+                    </nav>
+                </div>
+
+                {{-- SPESIFIKASI --}}
+                <div x-show="tab === 'spesifikasi'" class="space-y-6">
+                    <img src="{{ asset('img/cwSiemens/CentrifugalSiemens.png') }}" alt="Spesifikasi"
+                        class="w-full max-w-2xl rounded shadow border mx-auto">
+                    <img src="{{ asset('img/cwMotology/specMotology.png') }}" alt="Dimension Motology 1 Phase"
+                        class="w-full max-w-2xl rounded shadow border mx-auto">
+                    <img src="{{ asset('img/cwMotology/MotologyRpm.png') }}" alt="Dimension Motology 1 Phase"
+                        class="w-full max-w-2xl rounded shadow border mx-auto">
+                </div>
+
+                {{-- DIMENSION --}}
+                <div x-show="tab === 'dimension'" class="space-y-6">
+                    <img src="{{ asset('img/Motology/sparepat3phase.png') }}" alt="Sparepate Motology 3 Phase"
+                        class="w-full max-w-2xl rounded shadow border mx-auto">
+                    <img src="{{ asset('img/cwMotology/3phaseDimensi.png') }}" alt="Dimension Motology 1 Phase"
+                        class="w-full max-w-2xl rounded shadow border mx-auto">
+                    <img src="{{ asset('img/cwMotology/1phaseDimensi.png') }}" alt="Dimension Motology 1 Phase"
+                        class="w-full max-w-2xl rounded shadow border mx-auto">
+
+                </div>
+            </div>
+        @else
+            <div class="alert alert-warning">Produk tidak ditemukan.</div>
+        @endif
+    </div>
+@endsection

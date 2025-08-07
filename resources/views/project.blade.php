@@ -40,6 +40,8 @@
                     ['img' => 'Transfer2.jpg', 'name' => 'Sistem Pompa Transfer Rumah Sakit'],
                     ['img' => 'ChillerPump3.jpg', 'name' => 'Proyek Chiller Pump Mall'],
                     ['img' => 'Hydrant3.jpg', 'name' => 'Hydrant Industri Kimia'],
+                    ['img' => 'ChillerPump5.jpg', 'name' => 'Pompa Chiller Industri'],
+                    ['img' => 'Project.jpg', 'name' => 'Project Instalasi Mall Yogyakarta'],
                 ];
             @endphp
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">

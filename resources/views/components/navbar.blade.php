@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     {{-- Akhir Bootstrap Icon --}}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    @vite('resources/css/app.css')
+    @vite('resources/css/app.css', 'resources/js/app.js')
     <!-- AOS effek-->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     {{-- Akhir AOS --}}
@@ -134,16 +134,14 @@
                                 {{-- End Product Menu --}}
 
 
-                                <a href="/project"
-                                   x-data="{clicked: false}"
-                                   @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
-                                   :class="{'opacity-50 pointer-events-none': clicked}"
-                                   class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">Project</a>
-                                <a href="/contact"
-                                   x-data="{clicked: false}"
-                                   @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
-                                   :class="{'opacity-50 pointer-events-none': clicked}"
-                                   class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">Contact</a>
+                                <a href="/project" x-data="{ clicked: false }"
+                                    @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                                    :class="{ 'opacity-50 pointer-events-none': clicked }"
+                                    class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">Project</a>
+                                <a href="/contact" x-data="{ clicked: false }"
+                                    @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                                    :class="{ 'opacity-50 pointer-events-none': clicked }"
+                                    class="rounded-md px-3 py-2 text-sm font-bold text-gray-800 hover:bg-red-600 hover:text-white">Contact</a>
 
                                 <form action="{{ route('products.index') }}" method="GET" class="flex items-center">
                                     <input type="text" name="search" placeholder="Cari produk..."

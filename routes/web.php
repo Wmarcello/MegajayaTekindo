@@ -42,6 +42,7 @@ Route::get('/produk/{brand}', [ProductController::class, 'brand'])->name('produk
 
 // Specific product routes based on your navbar - Updated to use specific methods
 Route::get('/produk/ebara', [ProductController::class, 'ebara'])->name('produk.ebara');
+Route::get('/produk/cnp', [ProductController::class, 'cnp'])->name('produk.cnp');
 Route::get('/produk/grundfos', [ProductController::class, 'grundfos'])->name('produk.grundfos');
 Route::get('/produk/koshin', [ProductController::class, 'koshin'])->name('produk.koshin');
 Route::get('/produk/torishima', [ProductController::class, 'torishima'])->name('produk.torishima');

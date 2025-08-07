@@ -56,6 +56,7 @@
 
             <div>
                 <h1 class="text-3xl font-extrabold mb-2">SEAL KIT POMPA EBARA CDX SERIES</h1>
+                <div class="w-10 h-1 bg-red-600 mb-4"></div>
                 <p class="text-gray-700 mb-4">
                     Seal Kit Pompa EBARA CDX merupakan komponen penting untuk menjaga sistem pompa tetap kedap dan
                     mencegah

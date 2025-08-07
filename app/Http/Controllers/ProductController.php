@@ -133,6 +133,28 @@ class ProductController extends Controller
         }
         // Ebara akhir product
 
+        // Pump couple Electric Motor Product
+        elseif ($brand === 'siemens' && $type === 'Couple Siemens 2P-4P') {
+            return view('produk.type-detail-pump-couple-siemens', compact('product', 'brand', 'type', 'categories'));
+        } elseif ($brand === 'teco' && $type === 'Couple Teco 2P-4P') {
+            return view('produk.type-detail-pump-couple-teco', compact('product', 'brand', 'type', 'categories'));
+        } elseif ($brand === 'titan' && $type === 'Couple Titan 2P-4P') {
+            return view('produk.type-detail-pump-couple-titan', compact('product', 'brand', 'type', 'categories'));
+        } elseif ($brand === 'motology' && $type === 'Couple Motology 2P-4P') {
+            return view('produk.type-detail-pump-couple-motology', compact('product', 'brand', 'type', 'categories'));
+            
+        }
+        // Pump couple Electric Motor akhir product
+
+        // Pump Couple Engine Diesel Motor Product
+        elseif ($brand === 'isuzu' && $type === 'Couple Isuzu Engine') {
+            return view('produk.type-detail-pump-couple-isuzu', compact('product', 'brand', 'type', 'categories'));
+        } elseif ($brand === 'fawde' && $type === 'Couple Fawde Engine') {
+            return view('produk.type-detail-pump-couple-fawde', compact('product', 'brand', 'type', 'categories'));
+        }
+
+        // Pump Couple Engine Diesel Motor akhir product
+
         // Fu-tsu (Bowler)
         elseif ($brand === 'futsu' && $type === 'ts-series') {
             return view('produk.type-detail-fu-tsu-ts', compact('product', 'brand', 'type', 'categories'));
@@ -148,6 +170,12 @@ class ProductController extends Controller
             return view('produk.type-detail-grundfos-cm', compact('product', 'brand', 'type', 'categories'));
         }
         // Grundfos akhir product
+
+        // CNP Product
+        elseif ($brand === 'cnp' && $type === 'cdl-cdf-series') {
+            return view('produk.type-detail-cnp-cdl-cdf', compact('product', 'brand', 'type', 'categories'));
+        }
+        // CNP akhir product
 
         // Torishima Product
         elseif ($brand === 'torishima' && $type === 'cen-series') {

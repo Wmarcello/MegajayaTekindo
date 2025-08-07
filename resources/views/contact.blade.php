@@ -73,9 +73,9 @@
                         </div>
 
 
-                        <div class="text-left">
+                        <div class="flex justify-center mt-6">
                             <button type="submit" :disabled="loading"
-                                class="w-full md:w-auto flex items-center justify-center gap-2 bg-red-600 hover:bg-amber-500 text-white font-bold px-8 py-3 rounded-lg transition text-lg shadow-lg disabled:opacity-60 disabled:cursor-not-allowed">
+                                class="w-full sm:w-auto flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3 rounded-lg transition text-lg shadow-lg disabled:opacity-60 disabled:cursor-not-allowed">
                                 <template x-if="loading">
                                     <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg"
                                         fill="none" viewBox="0 0 24 24">
@@ -145,7 +145,7 @@
                     <div class="mt-4">
                         <h4 class="text-sm text-gray-600 font-semibold mb-2">Tampilan Workshop</h4>
                         <div class="rounded-lg overflow-hidden shadow-md">
-                            <img src="/img/workshop.jpg" alt="Foto Workshop" class="w-full h-48 object-cover">
+                            <img src="/img/office/workshop.jpg" alt="Foto Workshop" class="w-full h-48 object-cover">
                         </div>
                     </div>
                 </div>
@@ -246,6 +246,9 @@
 
 
     @endsection
+
+    {{-- AOS Alpine js --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     {{-- Render JS reCAPTCHA --}}
     {!! NoCaptcha::renderJs() !!}

@@ -166,6 +166,17 @@ class CategoryProductSeeder extends Seeder
                 'sort_order' => 7,
                 'image' => 'img/cen/cen.png',
             ],
+
+            [
+                'name' => 'CNP CDL/CDF Series',
+                'brand' => 'CNP',
+                'type' => 'cdl-cdf-series',
+                'description' => 'High-efficiency vertical multistage pump suitable for various industrial and water supply applications',
+                'specifications' => 'Flow rate: up to 120 m³/h, Head: up to 305 m',
+                'sort_order' => 8,
+                'image' => 'img/cnp/cdl_cdf.png',
+
+            ]
         ];
 
         foreach ($products as $productData) {
@@ -253,6 +264,45 @@ class CategoryProductSeeder extends Seeder
                 'image' => 'img/Motology/1phase.png',
             ],
 
+            // Pump Couple Electric Motor
+
+            [
+            'name' => 'Pump Couple Titan',
+            'brand' => 'Titan',
+            'type' => 'Couple Titan 2P-4P',
+            'description' => 'High-efficiency coupled pump with electric motor',
+            'specifications' => 'Robust build, easy maintenance, suitable for industrial use',
+            'sort_order' => 1,
+            'image' => 'img/pump-couple/titan.png',
+        ],
+        [
+            'name' => 'Pump Couple Siemens',
+            'brand' => 'Siemens',
+            'type' => 'Couple Siemens 2P-4P',
+            'description' => 'Reliable electric motor pump coupling by Siemens',
+            'specifications' => 'Durable performance, energy efficient, low noise operation',
+            'sort_order' => 2,
+            'image' => 'img/pump-couple/siemens.png',
+        ],
+        [
+            'name' => 'Pump Couple TECO',
+            'brand' => 'Teco',
+            'type' => 'Couple Teco 2P-4P',
+            'description' => 'Robust electric motor pump coupling from TECO',
+            'specifications' => 'Compact design, high torque output, suitable for continuous operation',
+            'sort_order' => 3,
+            'image' => 'img/pump-couple/teco.png',
+        ],
+        [
+            'name' => 'Pump Couple Motology',
+            'brand' => 'Motology',
+            'type' => 'Couple Motology 2P-4P',
+            'description' => 'Efficient and reliable pump coupling powered by Motology motor',
+            'specifications' => 'Energy-saving, stable performance, suitable for various industrial applications',
+            'sort_order' => 4,
+            'image' => 'img/pump-couple/motology.png',
+        ],
+
         ];
 
         foreach ($products as $productData) {
@@ -285,6 +335,29 @@ class CategoryProductSeeder extends Seeder
                 'sort_order' => 2,
                 'image' => 'img/fawde/4dx23.png',
             ],
+
+            // Pump Couple Diesel Motor
+
+            [
+                 'name' => 'Pump Couple Isuzu',
+                 'brand' => 'Isuzu',
+                 'type' => 'Couple Isuzu Engine',
+                 'description' => 'Efficient and reliable pump coupling powered by Isuzu motor',
+                 'specifications' => 'Energy-saving, stable performance, suitable for various industrial applications',
+                 'sort_order' => 1,
+                 'image' => 'img/cwIsuzu/isuzu.png',
+            ],
+
+            [
+                 'name' => 'Pump Couple Fawde',
+                 'brand' => 'Fawde',
+                 'type' => 'Couple Fawde Engine',
+                 'description' => 'Efficient and reliable pump coupling powered by Fawde motor',
+                 'specifications' => 'Energy-saving, stable performance, suitable for various industrial applications',
+                 'sort_order' => 2,
+                 'image' => 'img/cwFawde/fawdex.png',
+            ],
+
         ];
 
         foreach ($products as $productData) {
@@ -369,9 +442,8 @@ class CategoryProductSeeder extends Seeder
                 Product::create($productData);
             }
         }
-
     private function createAccessoryProducts($categoryId)
-    {
+{
         $products = [
             [
                 'name' => 'Tival',

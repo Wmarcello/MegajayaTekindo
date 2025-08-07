@@ -18,7 +18,7 @@
                 {{-- Detail Produk --}}
                 <div>
                     <h1 class="text-3xl font-extrabold mb-2">TIVAL FF4 - ACCESSORIES PUMP</h1>
-                    <div class="w-10 h-1 bg-gray-300 mb-4"></div>
+                    <div class="w-10 h-1 bg-red-600 mb-4"></div>
 
                     <h2 class="text-lg font-semibold mb-1">Fitur :</h2>
                     <ul class="list-disc list-inside text-gray-700 mb-4 space-y-1">

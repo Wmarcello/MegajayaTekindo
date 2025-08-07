@@ -22,7 +22,7 @@
                 {{-- Detail Produk --}}
                 <div>
                     <h1 class="text-3xl font-extrabold mb-2">{{ strtoupper(str_replace('-', ' ', $type)) }}</h1>
-                    <div class="w-10 h-1 bg-gray-300 mb-4"></div>
+                    <div class="w-10 h-1 bg-red-600 mb-4"></div>
 
                     <h2 class="text-lg font-semibold mb-1">Fitur :</h2>
                     <ul class="list-disc list-inside text-gray-700 mb-4 space-y-1">
@@ -46,11 +46,10 @@
                     {{-- WhatsApp Button --}}
                     <div class="mt-4">
                         <a href="https://wa.me/6285775230813?text=Halo%20MJT,%20saya%20tertarik%20dengan%20produk%20{{ $product->name }}%20dan%20ingin%20konsultasi%20mengenai%20spesifikasi%20yang%20saya%20butuhkan%20sebaiknya%20menggunakan%20tipe%20apa."
-                           target="_blank"
-                           x-data="{clicked: false}"
-                           @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
-                           :class="{'opacity-50 pointer-events-none': clicked}"
-                           class="inline-flex items-center gap-2 px-5 py-3 mt-6 bg-green-500 text-white font-semibold rounded-full shadow-md hover:bg-green-600 hover:shadow-lg transition duration-300 ease-in-out">
+                            target="_blank" x-data="{ clicked: false }"
+                            @click="if(clicked){ $event.preventDefault(); } else { clicked = true; }"
+                            :class="{ 'opacity-50 pointer-events-none': clicked }"
+                            class="inline-flex items-center gap-2 px-5 py-3 mt-6 bg-green-500 text-white font-semibold rounded-full shadow-md hover:bg-green-600 hover:shadow-lg transition duration-300 ease-in-out">
                             <i class="bi bi-whatsapp"></i>
                             Tanya via WhatsApp
                         </a>
