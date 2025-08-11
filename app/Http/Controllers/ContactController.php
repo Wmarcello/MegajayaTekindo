@@ -12,7 +12,7 @@ class ContactController extends Controller
         $validated = $request->validate([
             'name'    => 'required|string|max:255',
             'email'   => 'required|email',
-            'phone'   => 'required|string|max:30',
+            'phone'   => 'required|string|max:15',
             'message' => 'required|string',
             'g-recaptcha-response' => 'required|captcha',
         ]);
@@ -25,7 +25,7 @@ class ContactController extends Controller
             'user_message' => $validated['message'],
         ], function ($message) {
             $message->to('Williammarcello30@gmail.com')
-                ->subject('Pesan Kontak dari Website');
+                ->subject('Pesan Kontak dari Website MJT');
         });
 
        return redirect()->route('contact')->with('success', 'Pesan Anda berhasil dikirim!');

@@ -41,6 +41,12 @@ class ProductController extends Controller
         return view('home', compact('categories', 'searchResults', 'search'));
     }
 
+    public function Ebara(){
+        $brand = 'ebara';
+        $products = Product::where('brand', $brand)->active()->ordered()->get();
+        return view('produk.ebara', compact('products', 'brand'));
+    }
+
 
     public function koshin()
     {

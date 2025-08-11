@@ -42,6 +42,7 @@
                     ['img' => 'Hydrant3.jpg', 'name' => 'Hydrant Industri Kimia'],
                     ['img' => 'ChillerPump5.jpg', 'name' => 'Pompa Chiller Industri'],
                     ['img' => 'Project.jpg', 'name' => 'Project Instalasi Mall Yogyakarta'],
+                    ['img' => 'project3.jpg', 'name' => 'Project Proyek Di Kalimantan'],
                 ];
             @endphp
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -168,7 +169,7 @@
                     <h3 class="text-xl font-semibold text-white mb-4">Links</h3>
                     <ul class="space-y-2 text-sm">
                         <li><a href="/home" class="hover:text-white text-blue-400">› Home</a></li>
-                        <li><a href="#" class="hover:text-white text-blue-400">› Product</a></li>
+                        <li><a href="/project" class="hover:text-white text-blue-400">› Project</a></li>
                         <li><a href="/about" class="hover:text-white text-blue-400">› About Us</a></li>
                         <li><a href="/contact" class="hover:text-white text-blue-400">› Contact Us</a></li>
                     </ul>

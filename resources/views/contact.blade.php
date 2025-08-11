@@ -200,7 +200,9 @@
                         <p class="mb-1">JL. Angkasa Kavling B-6, Mall MGK Kemayoran Lt. UG Blok C3.No. 3,
                             Jakarta
                             Pusat</p>
-                        <p class="mb-1">Telepon: +62 857-7523-0813</p>
+                        <p class="mb-1">
+                            Telepon: +62 857-7523-0813
+                        </p>
                         <p class="mb-1">
                             Email: <a href="mailto:marketing@ptkmcl.com"
                                 class="text-blue-400 hover:underline">MegaJayaTekindo@gmail.com</a>

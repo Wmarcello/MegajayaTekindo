@@ -57,7 +57,7 @@
                         <div>{{ $product->specifications }}</div>
                     </div>
 
-                    <hr class="my-6 border-t border-red-600 mb-4">
+                    <hr class="my-6 border-t border-red-600 mb-8 mt-6">
 
                     <div class="grid gap-4">
                         <div>
@@ -67,6 +67,7 @@
                                 <option value="EBARA">EBARA</option>
                                 <option value="Torishima">Torishima</option>
                                 <option value="KSB">KSB</option>
+                                <option value="koshin">Koshin</option>
                                 <option value="Other">Lainnya</option>
                             </select>
                         </div>

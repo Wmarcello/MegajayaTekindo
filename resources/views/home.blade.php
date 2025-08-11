@@ -914,7 +914,7 @@
                             <h3 class="text-xl font-semibold text-white mb-4">Links</h3>
                             <ul class="space-y-2 text-sm">
                                 <li><a href="/home" class="hover:text-white text-blue-400">› Home</a></li>
-                                <li><a href="#" class="hover:text-white text-blue-400">› Product</a></li>
+                                <li><a href="/project" class="hover:text-white text-blue-400">› Project</a></li>
                                 <li><a href="/about" class="hover:text-white text-blue-400">› About Us</a></li>
                                 <li><a href="/contact" class="hover:text-white text-blue-400">› Contact Us</a>
                                 </li>

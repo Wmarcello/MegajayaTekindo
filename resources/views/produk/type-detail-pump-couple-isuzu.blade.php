@@ -25,12 +25,13 @@
                 {{-- Gambar Produk --}}
                 <div class="text-center">
                     <img src="{{ asset($product->image) }}" alt="Engine Isuzu Pump"
-                        class="mx-auto max-h-[360px] object-contain rounded-lg shadow-lg border transition-transform hover:scale-105 duration-300 ease-in-out">
+                        class="mx-auto max-h-[360px] object-contain rounded-lg transition-transform hover:scale-105 duration-300 ease-in-out">
                 </div>
 
                 {{-- Detail Produk --}}
                 <div>
-                    <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-2">Pump Centrifugal + Engine Isuzu 4JB
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-2">Pump Centrifugal + Engine Isuzu
+                        4JB
                         Series</h1>
                     <div class="w-14 h-1 bg-red-600 mb-5 rounded"></div>
 
@@ -54,7 +55,7 @@
                         <p class="text-gray-700">{{ $product->specifications }}</p>
                     </div>
 
-                    <div class="border-t border-red-500 my-6"></div>
+                    <div class="border-t border-red-600 mb-8 mt-6"></div>
 
                     {{-- Form Konsultasi --}}
                     <div class="space-y-4">
@@ -107,19 +108,19 @@
             </div>
 
             {{-- Tabs --}}
-            <div class="mt-14">
-                <div class="border-b border-gray-300 mb-4">
-                    <nav class="flex space-x-6 text-sm font-semibold">
+            <div class="mt-10">
+                <div class="border-b border-gray-200 mb-4">
+                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
                         <button @click="tab = 'spesifikasi'"
-                            :class="tab === 'spesifikasi' ? 'text-red-600 border-b-2 border-red-600' :
-                                'text-gray-500 hover:text-red-600'"
-                            class="pb-2 transition">
+                            :class="tab === 'spesifikasi' ? 'border-red-600 text-red-600' :
+                                'border-transparent text-gray-500 hover:text-gray-700'"
+                            class="whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm">
                             SPESIFIKASI
                         </button>
                         <button @click="tab = 'katalog'"
-                            :class="tab === 'katalog' ? 'text-red-600 border-b-2 border-red-600' :
-                                'text-gray-500 hover:text-red-600'"
-                            class="pb-2 transition">
+                            :class="tab === 'katalog' ? 'border-red-600 text-red-600' :
+                                'border-transparent text-gray-500 hover:text-gray-700'"
+                            class="whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm">
                             KATALOG
                         </button>
                     </nav>
@@ -127,23 +128,22 @@
 
                 {{-- SPESIFIKASI --}}
                 <div x-show="tab === 'spesifikasi'" class="space-y-6">
-                    <img src="{{ asset('img/cwIsuzu/specIsuzu.png') }}" alt="Spesifikasi Isuzu 4JB1"
-                        class="w-full max-w-2xl rounded-lg shadow-md border mx-auto transition hover:scale-105">
+                    <img src="{{ asset('img/cwisuzu/specisuzu.png') }}" alt="Spec isuzu 4jb Series with couple"
+                        class="w-full max-w-2xl rounded shadow border mx-auto mt-10">
                 </div>
 
                 {{-- KATALOG --}}
-                <div x-show="tab === 'katalog'" class="text-center space-y-4 mt-6">
-                    <img src="{{ asset('img/cwIsuzu/isuzu.png') }}" alt="Katalog Isuzu 4JB"
-                        class="mx-auto max-h-[250px] object-contain rounded shadow-md border">
+                <div x-show="tab === 'katalog'" class="text-center space-y-4">
+                    <img src="{{ asset('img/cwisuzu/isuzu.png') }}" alt="Spec isuzu 4jb Series with couple"
+                        class="mx-auto max-h-[250px] object-contain rounded shadow border">
                     <a href="{{ asset('pdf/isuzu_4jb1t_Catalog.pdf') }}" download
-                        class="inline-block px-6 py-2 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700 shadow transition">
-                        <i class="bi bi-download mr-2"></i>Unduh Katalog PDF
+                        class="inline-block px-6 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 transition">
+                        Download PDF Katalog
                     </a>
                 </div>
             </div>
         @else
-            <div class="alert alert-warning text-center py-6 text-lg font-semibold text-red-600">Produk tidak ditemukan.
-            </div>
+            <div class="alert alert-warning">Produk tidak ditemukan.</div>
         @endif
     </div>
 @endsection

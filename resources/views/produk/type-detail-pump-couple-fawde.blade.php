@@ -54,7 +54,7 @@
                         <p class="text-gray-700">{{ $product->specifications }}</p>
                     </div>
 
-                    <div class="border-t border-blue-500 my-6"></div>
+                    <div class="border-t border-red-600 mb-8 mt-6"></div>
 
                     {{-- Form Konsultasi --}}
                     <div class="space-y-4">
@@ -107,43 +107,44 @@
             </div>
 
             {{-- Tabs --}}
-            <div class="mt-14">
-                <div class="border-b border-gray-300 mb-4">
-                    <nav class="flex space-x-6 text-sm font-semibold">
-                        <button @click="tab = 'overview'"
-                            :class="tab === 'overview' ? 'text-blue-600 border-b-2 border-blue-600' :
-                                'text-gray-500 hover:text-blue-600'"
-                            class="pb-2 transition">
-                            OVERVIEW
+            <div class="mt-10">
+                <div class="border-b border-gray-200 mb-4">
+                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                        <button @click="tab = 'spesifikasi'"
+                            :class="tab === 'spesifikasi' ? 'border-red-600 text-red-600' :
+                                'border-transparent text-gray-500 hover:text-gray-700'"
+                            class="whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm">
+                            SPESIFIKASI
                         </button>
                         <button @click="tab = 'katalog'"
-                            :class="tab === 'katalog' ? 'text-blue-600 border-b-2 border-blue-600' :
-                                'text-gray-500 hover:text-blue-600'"
-                            class="pb-2 transition">
+                            :class="tab === 'katalog' ? 'border-red-600 text-red-600' :
+                                'border-transparent text-gray-500 hover:text-gray-700'"
+                            class="whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm">
                             KATALOG
                         </button>
                     </nav>
                 </div>
 
-                {{-- OVERVIEW --}}
-                <div x-show="tab === 'overview'" class="space-y-6">
-                    <img src="{{ asset('img/cwFawde/specFawde.png') }}" alt="Spesifikasi FAWDE"
-                        class="w-full max-w-2xl rounded-lg shadow-md border mx-auto transition hover:scale-105">
+                {{-- SPESIFIKASI --}}
+                <div x-show="tab === 'spesifikasi'" class="space-y-6">
+                    <img src="{{ asset('img/fawde/curve.png') }}" alt="Dimensi Tival FF4"
+                        class="w-full max-w-2xl rounded shadow border mx-auto mt-10">
+                    <img src="{{ asset('img/fawde/curve2.png') }}" alt="Dimensi Tival FF4"
+                        class="w-full max-w-2xl rounded shadow border mx-auto mt-10">
                 </div>
 
                 {{-- KATALOG --}}
-                <div x-show="tab === 'katalog'" class="text-center space-y-4 mt-6">
-                    <img src="{{ asset('img/cwFawde/fawde.png') }}" alt="Katalog FAWDE"
-                        class="mx-auto max-h-[250px] object-contain rounded shadow-md border">
-                    <a href="{{ asset('pdf/fawde_catalog.pdf') }}" download
-                        class="inline-block px-6 py-2 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 shadow transition">
-                        <i class="bi bi-download mr-2"></i>Download Katalog PDF
+                <div x-show="tab === 'katalog'" class="text-center space-y-4">
+                    <img src="{{ asset('img/cwFawde/fawdex.png') }}" alt="Katalog Tival FF4"
+                        class="mx-auto max-h-[250px] object-contain rounded shadow border">
+                    <a href="{{ asset('pdf/fawde_Catalog.pdf') }}" download
+                        class="inline-block px-6 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 transition">
+                        Download PDF Katalog
                     </a>
                 </div>
             </div>
         @else
-            <div class="alert alert-warning text-center py-6 text-lg font-semibold text-blue-600">Produk tidak ditemukan.
-            </div>
+            <div class="alert alert-warning">Produk tidak ditemukan.</div>
         @endif
     </div>
 @endsection
